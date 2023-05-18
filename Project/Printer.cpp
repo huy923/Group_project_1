@@ -74,6 +74,7 @@ int main(int argc, char const *argv[])
 	{
 		int choice;
 		cin >> choice;
+		cin.ignore();
 		switch (choice)
 		{
 		case 1:

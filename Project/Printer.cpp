@@ -69,8 +69,23 @@ int main(int argc, char const *argv[])
 	vector<LaserPrinter> DataLaserPrinter;
 
 	ColorPrinter NewData;
-	NewData.Options();
-	NewData.PomegranateChooseToOpenFile(DataPrinter, DataColorPrinter, DataLaserPrinter);
+	// NewData.Options();
+	for (;;)
+	{
+		int choice;
+		cin >> choice;
+		switch (choice)
+		{
+		case 1:
+			NewData.PomegranateChooseToOpenFile(DataPrinter, DataColorPrinter, DataLaserPrinter);
+			break;
+		default:
+			cout << "Bye! 💖💖💖" << endl;
+			exit(1);
+			break;
+		}
+	}
+
 	DataPrinter.clear();
 	DataLaserPrinter.clear();
 	DataColorPrinter.clear();
@@ -315,13 +330,13 @@ void ColorPrinter::Input()
 	ofstream MyFile("Color printer warehouse.txt", ios::app);
 	if (MyFile.is_open())
 	{
-	MyFile << PrinterNumber << ";" << Color << ";" << Speed << ";" << Intensity << ";" << Memory << ";" << NumberOfPrintersInStock << ";" << DPI << ";" << NumberOfPrintableColors << "\n";
-	}else
+		MyFile << PrinterNumber << ";" << Color << ";" << Speed << ";" << Intensity << ";" << Memory << ";" << NumberOfPrintersInStock << ";" << DPI << ";" << NumberOfPrintableColors << "\n";
+	}
+	else
 	{
 		cout << "Error";
 	}
-	
-	
+
 	MyFile.close();
 	system("cls");
 	cout << "Added data do you want to see" << endl;
@@ -417,10 +432,6 @@ void ColorPrinter::MoreData(string NameFile)
 		ColorPrinter::Input();
 		file.close();
 	}
-	else
-	{
-		cerr << "Error open file" << endl;
-	}
 }
 void ColorPrinter::Options()
 {
@@ -453,7 +464,8 @@ void ColorPrinter::Options()
 		break;
 	}
 }
-void ColorPrinter::CheckOpenFile(){
+void ColorPrinter::CheckOpenFile()
+{
 	ifstream file("Common printer warehouse.txt");
 	ifstream file2("Laser printer warehouse.txt");
 	ifstream file3("Color printer warehouse.txt");

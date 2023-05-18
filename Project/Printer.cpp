@@ -69,7 +69,7 @@ int main(int argc, char const *argv[])
 	vector<LaserPrinter> DataLaserPrinter;
 
 	ColorPrinter NewData;
-	// NewData.Options();
+	NewData.Options();
 	for (;;)
 	{
 		int choice;

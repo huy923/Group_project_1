@@ -5,7 +5,6 @@
 #include <sstream>
 #include <cstdio>
 #include <iomanip>
-
 using namespace std;
 
 class Printer
@@ -24,6 +23,7 @@ public:
 	void Split(string);
 	void Input();
 	void Output(vector<Printer>);
+	void PrinterStatistical(const vector<Printer> &);
 };
 
 class LaserPrinter : public Printer
@@ -39,6 +39,7 @@ public:
 	void Input();
 	void Split(string);
 	void Output(vector<LaserPrinter>);
+	void PrinterStatistical(const vector<LaserPrinter> &);
 };
 
 class ColorPrinter : public LaserPrinter
@@ -59,6 +60,8 @@ public:
 	void GetFileData(string, vector<Printer> &, vector<ColorPrinter> &, vector<LaserPrinter> &);
 	void MoreData(string);
 	void Options();
+	void PrinterStatistical(const vector<ColorPrinter> &);
+	void ShowPrinterStatistics();
 };
 
 // main is here
@@ -67,19 +70,31 @@ int main(int argc, char const *argv[])
 	vector<Printer> DataPrinter;
 	vector<ColorPrinter> DataColorPrinter;
 	vector<LaserPrinter> DataLaserPrinter;
-
+	bool success = false;
 	ColorPrinter NewData;
-	NewData.Options();
 	for (;;)
 	{
+		cout << "Enter 1: Add new data" << endl;
+		cout << "Enter 2: Export data" << endl;
+		cout << "Enter 3: Show missing data " << endl;
+
 		int choice;
 		cin >> choice;
-		cin.ignore();
 		switch (choice)
 		{
 		case 1:
-			NewData.PomegranateChooseToOpenFile(DataPrinter, DataColorPrinter, DataLaserPrinter);
+			NewData.Options();
+			success = true;
 			break;
+		case 2:
+			NewData.PomegranateChooseToOpenFile(DataPrinter, DataColorPrinter, DataLaserPrinter);
+			success = true;
+			break;
+		case 3:
+			if (success)
+			{
+
+			}
 		default:
 			cout << "Bye! 💖💖💖" << endl;
 			exit(1);
@@ -337,7 +352,6 @@ void ColorPrinter::Input()
 	{
 		cout << "Error";
 	}
-
 	MyFile.close();
 	system("cls");
 	cout << "Added data do you want to see" << endl;
@@ -437,9 +451,9 @@ void ColorPrinter::MoreData(string NameFile)
 void ColorPrinter::Options()
 {
 	cout << "In which file do you want to add data? " << endl;
-	cout << "Enter 1 : Add data to file Common printer warehouse" << endl;
-	cout << "Enter 2 : Add data to file Laser printer warehouse" << endl;
-	cout << "Enter 3 : Add data to file Color printer warehouse" << endl;
+	cout << "Enter 1 : Add data to the file Common printer warehouse" << endl;
+	cout << "Enter 2 : Add data to the file Laser printer warehouse" << endl;
+	cout << "Enter 3 : Add data to the file Color printer warehouse" << endl;
 	int choice;
 	cin >> choice;
 	cin.ignore();
@@ -477,4 +491,71 @@ void ColorPrinter::CheckOpenFile()
 	file.close();
 	file2.close();
 	file3.close();
+}
+void Printer::PrinterStatistical(const vector<Printer> &data)
+{
+	vector<Printer> result;
+	bool success = false;
+	for (int i = 0; i < data.size(); i++)
+	{
+		if (data[i].NumberOfPrintersInStock < 5)
+		{
+			success = true;
+			result.push_back(data[i]);
+		}
+	}
+	if (success)
+	{
+		Printer::Output(result);
+	}
+	else
+	{
+		cout << "No printer is messing with" << endl;
+	}
+}
+void LaserPrinter::PrinterStatistical(const vector<LaserPrinter> &data)
+{
+	vector<LaserPrinter> result;
+	bool success = false;
+	for (int i = 0; i < data.size(); i++)
+	{
+		if (data[i].NumberOfPrintersInStock < 5)
+		{
+			success = true;
+			result.push_back(data[i]);
+		}
+	}
+	if (success)
+	{
+		LaserPrinter::Output(result);
+	}
+	else
+	{
+		cout << "No printer is messing with" << endl;
+	}
+}
+void ColorPrinter::PrinterStatistical(const vector<ColorPrinter> &data)
+{
+	vector<ColorPrinter> result;
+	bool success = false;
+	for (int i = 0; i < data.size(); i++)
+	{
+		if (data[i].NumberOfPrintersInStock < 5)
+		{
+			success = true;
+			result.push_back(data[i]);
+		}
+	}
+	if (success)
+	{
+		ColorPrinter::Output(result);
+	}
+	else
+	{
+		cout << "No printer is messing with" << endl;
+	}
+}
+void ColorPrinter::ShowPrinterStatistics()
+{
+	
 }

@@ -5,7 +5,7 @@
 #include <vector>
 #include <sstream>
 #include <istream>
-
+#include <iostream>
 class Printer
 {
 protected:
@@ -69,12 +69,12 @@ void Printer::Input()
 	std::cin >> NumberOfPrintersInStock;
 	std::ofstream MyFile("Common printer warehouse.txt", std::ios::app);
 	MyFile << PrinterNumber << ";" << Color << ";" << Speed << ";" << Intensity << ";" << Memory << ";" << NumberOfPrintersInStock << "\n";
-	system("cls");
+	std::system("cls");
 	std::cout << "Added data do you want to see (y,n) :";
     std::string choice;
     std::cin >> choice;
     std::cin.ignore();
-    system("cls");
+    std::system("cls");
     if (choice == "y" or choice == "Y") 
     {
         std::vector<Printer> data;
@@ -107,4 +107,4 @@ void Printer::Output(std::vector<Printer> data)
 	}
 	std::cout << "+------------------------+---------+-------+-------------+--------+-------+" << std::endl;
 }
-#endif
+#endifv

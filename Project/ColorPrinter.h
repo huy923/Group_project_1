@@ -2,6 +2,7 @@
 #define COLORPRINTER_H
 #include "Printer.h"
 #include "LaserPrinter.h"
+#include <iostream>
 #include <vector>
 #include <string>
 #include <istream>
@@ -25,6 +26,11 @@ public:
     void Options();
     void ShowPrinterStatistics();
 };
+
+
+ColorPrinter::ColorPrinter(int num, std::string color, double speed, double intensity, double memory, int stock, double dpi, int numColors)
+	: LaserPrinter(num, color, speed, intensity, memory, stock, dpi), NumberOfPrintableColors(numColors) {}
+
 ColorPrinter::ColorPrinter()
 {
 	PrinterNumber = 0;
@@ -227,7 +233,7 @@ void ColorPrinter::ShowPrinterStatistics()
 		}
 		if (success)
 		{
-			system("cls");
+			std::system("cls");
 			std::cout << "\t\t\t------------------- Missing Printer ------------------ \n";
 			Printer::Output(data1);
 		}
@@ -255,7 +261,7 @@ void ColorPrinter::ShowPrinterStatistics()
 		}
 		if (success)
 		{
-			system("cls");
+			std::system("cls");
 			std::cout << "\t\t\t------------------- Missing Printer ------------------ \n";
 			LaserPrinter::Output(data2);
 		}
@@ -283,7 +289,7 @@ void ColorPrinter::ShowPrinterStatistics()
 		}
 		if (success)
 		{
-			system("cls");
+			std::system("cls");
 			std::cout << "\t\t\t------------------- Missing Printer ------------------ \n";
 			ColorPrinter::Output(data3);
 		}
@@ -314,7 +320,7 @@ void ColorPrinter::PomegranateChooseToOpenFile(std::vector<Printer> &DataPrinter
 	{
 		// read data from Common printer warehouse.txt file
 		std::ifstream inFile("Common printer warehouse.txt");
-		system("cls");
+		std::system("cls");
 		GetFileData("Common printer warehouse.txt", DataPrinter, DataColorPrinter, DataLaserPrinter);
 		inFile.close();
 	}
@@ -323,7 +329,7 @@ void ColorPrinter::PomegranateChooseToOpenFile(std::vector<Printer> &DataPrinter
 	{
 		// read data from Laser printer warehouse.txt file
 		std::ifstream inFile("Laser printer warehouse.txt");
-		system("cls");
+		std::system("cls");
 		GetFileData("Laser printer warehouse.txt", DataPrinter, DataColorPrinter, DataLaserPrinter);
 		inFile.close();
 	}
@@ -333,7 +339,7 @@ void ColorPrinter::PomegranateChooseToOpenFile(std::vector<Printer> &DataPrinter
 	{
 		// read data from Color printer warehouse.txt file
 		std::ifstream inFile("Color printer warehouse.txt");
-		system("cls");
+		std::system("cls");
 		GetFileData("Color printer warehouse.txt", DataPrinter, DataColorPrinter, DataLaserPrinter);
 		inFile.close();
 	}
@@ -342,5 +348,54 @@ void ColorPrinter::PomegranateChooseToOpenFile(std::vector<Printer> &DataPrinter
 		std::cout << "Invalid selection. Please choose again." << std::endl;
 		break;
 	}
+}
+void ColorPrinter::Input()
+{
+	std::cout << "Enter printer number: ";
+	std::cin >> PrinterNumber;
+	std::cout << "Enter color: ";
+	std::cin >> Color;
+	std::cout << "Enter speed (pages per minute): ";
+	std::cin >> Speed;
+	std::cout << "Enter intensity : ";
+	std::cin >> Intensity;
+	std::cout << "Enter memory (MB): ";
+	std::cin >> Memory;
+	std::cout << "Enter number of printers in stock: ";
+	std::cin >> NumberOfPrintersInStock;
+	std::cout << "Enter number of dots per inch (dpi): ";
+	double DPI;
+	std::cin >> DPI;
+	std::cout << "Enter number of printable colors: ";
+	std::cin >> NumberOfPrintableColors;
+	std::ofstream MyFile("Color printer warehouse.txt", std::ios::app);
+	if (MyFile.is_open())
+	{
+		MyFile << PrinterNumber << ";" << Color << ";" << Speed << ";" << Intensity << ";" << Memory << ";" << NumberOfPrintersInStock << ";" << DPI << ";" << NumberOfPrintableColors << "\n";
+	}
+	else
+	{
+		std::cout << "Error";
+	}
+	std::cout << "Added data do you want to see (y,n) :";
+    std::string choice;
+    std::cin >> choice;
+    std::cin.ignore();
+    std::system("cls");
+	    if (choice == "y" or choice == "Y") 
+    {
+        std::vector<ColorPrinter> data;
+        std::ifstream file("Color printer warehouse.txt");
+        std::string line;
+        while (std::getline(file,line))
+        {
+            ColorPrinter printer;
+            printer.ColorPrinter::Split(line);
+            data.push_back(printer);
+        }
+        ColorPrinter::Output(data);
+    }
+	MyFile.close();
+	std::system("cls");
 }
 #endif

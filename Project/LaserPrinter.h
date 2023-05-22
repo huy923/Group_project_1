@@ -18,6 +18,18 @@ public:
 	void Split(std::string);
 	void Output(std::vector<LaserPrinter>);
 };
+LaserPrinter::LaserPrinter(int num, std::string color, double speed, double intensity, double memory, int stock, double dpi)
+	: Printer(num, color, speed, intensity, memory, stock), DPI(dpi) {}
+LaserPrinter::LaserPrinter()
+{
+	PrinterNumber = 0;
+	Color = "";
+	Speed = 0.0;
+	Intensity = 0.0;
+	Memory = 0.0;
+	NumberOfPrintersInStock = 0;
+	DPI = 0.0;
+}
 
 void LaserPrinter::Split(std::string line)
 {
@@ -38,6 +50,48 @@ void LaserPrinter::Split(std::string line)
 	double NumberDPI = std::stod(field);
 	SetDPI(NumberDPI);
 }
+
+void LaserPrinter::Input()
+{
+	std::cout << "Enter printer number: ";
+	std::cin >> PrinterNumber;
+	std::cout << "Enter color: ";
+	std::cin >> Color;
+	std::cout << "Enter speed (pages per minute): ";
+	std::cin >> Speed;
+	std::cout << "Enter intensity : ";
+	std::cin >> Intensity;
+	std::cout << "Enter memory (MB): ";
+	std::cin >> Memory;
+	std::cout << "Enter number of printers in stock: ";
+	std::cin >> NumberOfPrintersInStock;
+	std::cout << "Enter number of dots per inch (dpi): ";
+	std::cin >> DPI;
+	std::ofstream MyFile("Laser printer warehouse.txt", std::ios::app);
+	MyFile << PrinterNumber << ";" << Color << ";" << Speed << ";" << Intensity << ";" << Memory << ";" << NumberOfPrintersInStock << ";" << DPI << "\n";
+	std::system("cls");
+	std::cout << "Added data do you want to see (y,n) :";
+	std::string choice;
+	std::cin >> choice;
+	std::cin.ignore();
+	std::system("cls");
+	if (choice == "y" or choice == "Y")
+	{
+		std::vector<LaserPrinter> data;
+		std::ifstream file("Laser printer warehouse.txt");
+		std::string line;
+		while (std::getline(file, line))
+		{
+			LaserPrinter printer;
+			printer.LaserPrinter::Split(line);
+			data.push_back(printer);
+		}
+		LaserPrinter::Output(data);
+	}
+	MyFile.close();
+	std::system("cls");
+}
+
 void LaserPrinter::Output(std::vector<LaserPrinter> data)
 {
 	std::cout << "+------------------------+---------+-------+-------------+--------+-------+-----+" << std::endl;

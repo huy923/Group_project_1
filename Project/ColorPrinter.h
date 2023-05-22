@@ -299,5 +299,48 @@ void ColorPrinter::ShowPrinterStatistics()
 		break;
 	}
 }
+void ColorPrinter::PomegranateChooseToOpenFile(std::vector<Printer> &DataPrinter, std::vector<ColorPrinter> &DataColorPrinter, std::vector<LaserPrinter> &DataLaserPrinter)
+{
+	std::cout << "Enter your selection\n";
+	std::cout << "1. Common printer warehouse\n";
+	std::cout << "2. Laser printer warehouse\n";
+	std::cout << "3. Color printer warehouse\n";
+	int Select;
+	std::cin >> Select;
+	std::cin.ignore();
+	switch (Select)
+	{
+	case 1:
+	{
+		// read data from Common printer warehouse.txt file
+		std::ifstream inFile("Common printer warehouse.txt");
+		system("cls");
+		GetFileData("Common printer warehouse.txt", DataPrinter, DataColorPrinter, DataLaserPrinter);
+		inFile.close();
+	}
+	break;
+	case 2:
+	{
+		// read data from Laser printer warehouse.txt file
+		std::ifstream inFile("Laser printer warehouse.txt");
+		system("cls");
+		GetFileData("Laser printer warehouse.txt", DataPrinter, DataColorPrinter, DataLaserPrinter);
+		inFile.close();
+	}
 
+	break;
+	case 3:
+	{
+		// read data from Color printer warehouse.txt file
+		std::ifstream inFile("Color printer warehouse.txt");
+		system("cls");
+		GetFileData("Color printer warehouse.txt", DataPrinter, DataColorPrinter, DataLaserPrinter);
+		inFile.close();
+	}
+	break;
+	default:
+		std::cout << "Invalid selection. Please choose again." << std::endl;
+		break;
+	}
+}
 #endif

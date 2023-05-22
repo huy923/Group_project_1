@@ -20,6 +20,7 @@ protected:
 public:
 	Printer();
 	Printer(int, string, double, double, double, int);
+	int GetNumberOfPrintersInStock() { return NumberOfPrintersInStock; }
 	void Split(string);
 	void Input();
 	void Output(vector<Printer>);
@@ -70,7 +71,6 @@ int main(int argc, char const *argv[])
 	vector<Printer> DataPrinter;
 	vector<ColorPrinter> DataColorPrinter;
 	vector<LaserPrinter> DataLaserPrinter;
-	bool success = false;
 	ColorPrinter NewData;
 	for (;;)
 	{
@@ -84,17 +84,13 @@ int main(int argc, char const *argv[])
 		{
 		case 1:
 			NewData.Options();
-			success = true;
 			break;
 		case 2:
 			NewData.PomegranateChooseToOpenFile(DataPrinter, DataColorPrinter, DataLaserPrinter);
-			success = true;
 			break;
 		case 3:
-			if (success)
-			{
-
-			}
+			NewData.ShowPrinterStatistics();
+			break;
 		default:
 			cout << "Bye! 💖💖💖" << endl;
 			exit(1);
@@ -492,70 +488,104 @@ void ColorPrinter::CheckOpenFile()
 	file2.close();
 	file3.close();
 }
-void Printer::PrinterStatistical(const vector<Printer> &data)
-{
-	vector<Printer> result;
-	bool success = false;
-	for (int i = 0; i < data.size(); i++)
-	{
-		if (data[i].NumberOfPrintersInStock < 5)
-		{
-			success = true;
-			result.push_back(data[i]);
-		}
-	}
-	if (success)
-	{
-		Printer::Output(result);
-	}
-	else
-	{
-		cout << "No printer is messing with" << endl;
-	}
-}
-void LaserPrinter::PrinterStatistical(const vector<LaserPrinter> &data)
-{
-	vector<LaserPrinter> result;
-	bool success = false;
-	for (int i = 0; i < data.size(); i++)
-	{
-		if (data[i].NumberOfPrintersInStock < 5)
-		{
-			success = true;
-			result.push_back(data[i]);
-		}
-	}
-	if (success)
-	{
-		LaserPrinter::Output(result);
-	}
-	else
-	{
-		cout << "No printer is messing with" << endl;
-	}
-}
-void ColorPrinter::PrinterStatistical(const vector<ColorPrinter> &data)
-{
-	vector<ColorPrinter> result;
-	bool success = false;
-	for (int i = 0; i < data.size(); i++)
-	{
-		if (data[i].NumberOfPrintersInStock < 5)
-		{
-			success = true;
-			result.push_back(data[i]);
-		}
-	}
-	if (success)
-	{
-		ColorPrinter::Output(result);
-	}
-	else
-	{
-		cout << "No printer is messing with" << endl;
-	}
-}
 void ColorPrinter::ShowPrinterStatistics()
 {
-	
+	vector<Printer> data1;
+	vector<LaserPrinter> data2;
+	vector<ColorPrinter> data3;
+
+	cout << "What printer stats do you want to see? " << endl;
+	cout << "Enter 1: Printer" << endl;
+	cout << "Enter 2: Laser printer" << endl;
+	cout << "Enter 3: Color printer" << endl;
+	int choice;
+	cin >> choice;
+	cin.ignore();
+	switch (choice)
+	{
+	case 1:
+	{
+		ifstream file("Common printer warehouse.txt");
+		string Line;
+		bool success = false;
+		while (getline(file, Line))
+		{
+			Printer NewPrinter;
+			NewPrinter.Printer::Split(Line);
+			if (NewPrinter.GetNumberOfPrintersInStock() < 5)
+			{
+				success = true;
+				data1.push_back(NewPrinter);
+			}
+		}
+		if (success)
+		{
+			cout << "\t\t\t------------------- Missing Printer ------------------ \n";
+			Printer::Output(data1);
+		}
+		else
+		{
+			cout << "No printer is messing" << endl;
+		}
+		file.close();
+	}
+	break;
+	case 2:
+	{
+		ifstream file("Laser printer warehouse.txt");
+		string Line;
+		bool success = false;
+		while (getline(file, Line))
+		{
+			LaserPrinter NewPrinter;
+			NewPrinter.LaserPrinter::Split(Line);
+			if (NewPrinter.GetNumberOfPrintersInStock() < 5)
+			{
+				success = true;
+				data2.push_back(NewPrinter);
+			}
+		}
+		if (success)
+		{
+			cout << "\t\t\t------------------- Missing Printer ------------------ \n";
+			LaserPrinter::Output(data2);
+		}
+		else
+		{
+			cout << "No printer is messing" << endl;
+		}
+		file.close();
+	}
+	break;
+	case 3:
+	{
+		ifstream file("Color printer warehouse.txt");
+		string Line;
+		bool success = false;
+		while (getline(file, Line))
+		{
+			ColorPrinter NewPrinter;
+			NewPrinter.ColorPrinter::Split(Line);
+			if (NewPrinter.GetNumberOfPrintersInStock() < 5)
+			{
+				success = true;
+				data3.push_back(NewPrinter);
+			}
+		}
+		if (success)
+		{
+			cout << "\t\t\t------------------- Missing Printer ------------------ \n";
+			ColorPrinter::Output(data3);
+		}
+		else
+		{
+			cout << "No printer is messing" << endl;
+		}
+		file.close();
+	}
+	break;
+	default:
+		cout << "ERROR: Unknown" << endl;
+		break;
+	}
 }

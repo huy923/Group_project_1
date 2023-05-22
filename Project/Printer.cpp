@@ -96,28 +96,6 @@ void ColorPrinter::PomegranateChooseToOpenFile(vector<Printer> &DataPrinter, vec
 }
 
 
-void Printer::Input()
-{
-	cout << "Enter printer number: ";
-	cin >> PrinterNumber;
-	cout << "Enter color: ";
-	cin >> Color;
-	cout << "Enter speed (pages per minute): ";
-	cin >> Speed;
-	cout << "Enter intensity : ";
-	cin >> Intensity;
-	cout << "Enter memory (MB): ";
-	cin >> Memory;
-	cout << "Enter number of printers in stock: ";
-	cin >> NumberOfPrintersInStock;
-	ofstream MyFile("Common printer warehouse.txt", ios::app);
-	MyFile << PrinterNumber << ";" << Color << ";" << Speed << ";" << Intensity << ";" << Memory << ";" << NumberOfPrintersInStock << "\n";
-	system("cls");
-	cout << "Added data do you want to see";
-	MyFile.close();
-	Printer();
-}
-
 LaserPrinter::LaserPrinter(int num, string color, double speed, double intensity, double memory, int stock, double dpi)
 	: Printer(num, color, speed, intensity, memory, stock), DPI(dpi) {}
 LaserPrinter::LaserPrinter()
@@ -382,7 +360,7 @@ void ColorPrinter::ShowPrinterStatistics()
 				data1.push_back(NewPrinter);
 			}
 		}
-		if (success) 
+		if (success)
 		{
 			cout << "\t\t\t------------------- Missing Printer ------------------ \n";
 			Printer::Output(data1);

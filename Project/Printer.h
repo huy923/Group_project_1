@@ -4,6 +4,8 @@
 #include <string>
 #include <vector>
 #include <sstream>
+#include <istream>
+
 class Printer
 {
 protected:
@@ -49,6 +51,45 @@ void Printer::Split(std::string line)
 	Memory = std::stod(field);
 	std::getline(ss, field, '\n');
 	NumberOfPrintersInStock = std::stoi(field);
+}
+
+void Printer::Input()
+{
+	std::cout << "Enter printer number: ";
+	std::cin >> PrinterNumber;
+	std::cout << "Enter color: ";
+	std::cin >> Color;
+	std::cout << "Enter speed (pages per minute): ";
+	std::cin >> Speed;
+	std::cout << "Enter intensity : ";
+	std::cin >> Intensity;
+	std::cout << "Enter memory (MB): ";
+	std::cin >> Memory;
+	std::cout << "Enter number of printers in stock: ";
+	std::cin >> NumberOfPrintersInStock;
+	std::ofstream MyFile("Common printer warehouse.txt", std::ios::app);
+	MyFile << PrinterNumber << ";" << Color << ";" << Speed << ";" << Intensity << ";" << Memory << ";" << NumberOfPrintersInStock << "\n";
+	system("cls");
+	std::cout << "Added data do you want to see (y,n) :";
+    std::string choice;
+    std::cin >> choice;
+    std::cin.ignore();
+    system("cls");
+    if (choice == "y" or choice == "Y") 
+    {
+        std::vector<Printer> data;
+        std::ifstream file("Common printer warehouse.txt");
+        std::string line;
+        while (std::getline(file,line))
+        {
+            Printer printer;
+            printer.Printer::Split(line);
+            data.push_back(printer);
+        }
+        Printer::Output(data);
+    }
+    
+	MyFile.close();
 }
 void Printer::Output(std::vector<Printer> data)
 {

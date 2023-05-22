@@ -15,6 +15,7 @@ public:
 	double GetDPI() const { return DPI; }
 	void SetDPI(double DPI) { this->DPI = DPI; }
 	void Input();
+	
 	void Split(std::string);
 	void Output(std::vector<LaserPrinter>);
 };

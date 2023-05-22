@@ -382,7 +382,7 @@ void ColorPrinter::ShowPrinterStatistics()
 				data1.push_back(NewPrinter);
 			}
 		}
-		if (success)
+		if (success) 
 		{
 			cout << "\t\t\t------------------- Missing Printer ------------------ \n";
 			Printer::Output(data1);

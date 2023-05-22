@@ -24,7 +24,6 @@ public:
 	void Split(string);
 	void Input();
 	void Output(vector<Printer>);
-	void PrinterStatistical(const vector<Printer> &);
 };
 
 class LaserPrinter : public Printer
@@ -40,7 +39,6 @@ public:
 	void Input();
 	void Split(string);
 	void Output(vector<LaserPrinter>);
-	void PrinterStatistical(const vector<LaserPrinter> &);
 };
 
 class ColorPrinter : public LaserPrinter
@@ -61,7 +59,6 @@ public:
 	void GetFileData(string, vector<Printer> &, vector<ColorPrinter> &, vector<LaserPrinter> &);
 	void MoreData(string);
 	void Options();
-	void PrinterStatistical(const vector<ColorPrinter> &);
 	void ShowPrinterStatistics();
 };
 

@@ -25,6 +25,17 @@ public:
     void Options();
     void ShowPrinterStatistics();
 };
+ColorPrinter::ColorPrinter()
+{
+	PrinterNumber = 0;
+	Color = "";
+	Speed = 0.0;
+	Intensity = 0.0;
+	Memory = 0.0;
+	NumberOfPrintersInStock = 0;
+	this->SetDPI(0.0);
+	NumberOfPrintableColors = 0;
+}
 void ColorPrinter::Split(std::string line)
 {
     std::stringstream ss(line);

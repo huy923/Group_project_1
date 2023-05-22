@@ -2,65 +2,11 @@
 #include <string>
 #include <vector>
 #include <fstream>
-#include <sstream>
-#include <cstdio>
 #include <iomanip>
+#include "Printer.h"
+#include "LaserPrinter.h"
+#include "ColorPrinter.h"
 using namespace std;
-
-class Printer
-{
-protected:
-	int PrinterNumber;
-	string Color;
-	double Speed;
-	double Intensity;
-	double Memory;
-	int NumberOfPrintersInStock;
-
-public:
-	Printer();
-	Printer(int, string, double, double, double, int);
-	int GetNumberOfPrintersInStock() { return NumberOfPrintersInStock; }
-	void Split(string);
-	void Input();
-	void Output(vector<Printer>);
-};
-
-class LaserPrinter : public Printer
-{
-private:
-	double DPI;
-
-public:
-	LaserPrinter();
-	LaserPrinter(int, string, double, double, double, int, double);
-	double GetDPI() const { return DPI; }
-	void SetDPI(double DPI) { this->DPI = DPI; }
-	void Input();
-	void Split(string);
-	void Output(vector<LaserPrinter>);
-};
-
-class ColorPrinter : public LaserPrinter
-{
-private:
-	int NumberOfPrintableColors;
-
-public:
-	ColorPrinter();
-	ColorPrinter(int, string, double, double, double, int, double, int);
-	int GetNumberOfPrintableColors() const { return NumberOfPrintableColors; }
-	void SetNumberOfPrintableColors(int NumberOfPrintableColors) { this->NumberOfPrintableColors = NumberOfPrintableColors; }
-	void Split(string);
-	void Input();
-	void CheckOpenFile();
-	void PomegranateChooseToOpenFile(vector<Printer> &, vector<ColorPrinter> &, vector<LaserPrinter> &);
-	void Output(vector<ColorPrinter>);
-	void GetFileData(string, vector<Printer> &, vector<ColorPrinter> &, vector<LaserPrinter> &);
-	void MoreData(string);
-	void Options();
-	void ShowPrinterStatistics();
-};
 
 // main is here
 int main(int argc, char const *argv[])
@@ -88,6 +34,9 @@ int main(int argc, char const *argv[])
 		case 3:
 			NewData.ShowPrinterStatistics();
 			break;
+		// case 4:	
+
+		// 	break;
 		default:
 			cout << "Bye! 💖💖💖" << endl;
 			exit(1);
@@ -146,74 +95,7 @@ void ColorPrinter::PomegranateChooseToOpenFile(vector<Printer> &DataPrinter, vec
 	}
 }
 
-Printer::Printer()
-{
-	PrinterNumber = 0;
-	Color = "";
-	Speed = 0.0;
-	Intensity = 0.0;
-	Memory = 0.0;
-	NumberOfPrintersInStock = 0;
-}
-Printer::Printer(int num, string color, double speed, double intensity, double memory, int stock)
-	: PrinterNumber(num), Color(color), Speed(speed), Intensity(intensity), Memory(memory), NumberOfPrintersInStock(stock) {}
-void Printer::Split(string line)
-{
-	stringstream ss(line);
-	string field;
-	getline(ss, field, ';');
-	PrinterNumber = stoi(field);
-	getline(ss, Color, ';');
-	getline(ss, field, ';');
-	Speed = stod(field);
-	getline(ss, field, ';');
-	Intensity = stod(field);
-	getline(ss, field, ';');
-	Memory = stod(field);
-	getline(ss, field, '\n');
-	NumberOfPrintersInStock = stoi(field);
-}
-void LaserPrinter::Split(string line)
-{
-	stringstream ss(line);
-	string field;
-	getline(ss, field, ';');
-	PrinterNumber = stoi(field);
-	getline(ss, Color, ';');
-	getline(ss, field, ';');
-	Speed = stod(field);
-	getline(ss, field, ';');
-	Intensity = stod(field);
-	getline(ss, field, ';');
-	Memory = stod(field);
-	getline(ss, field, ';');
-	NumberOfPrintersInStock = stoi(field);
-	getline(ss, field, '\n');
-	double NumberDPI = stod(field);
-	SetDPI(NumberDPI);
-}
-void ColorPrinter::Split(string line)
-{
-	stringstream ss(line);
-	string field;
-	getline(ss, field, ';');
-	PrinterNumber = stoi(field);
-	getline(ss, Color, ';');
-	getline(ss, field, ';');
-	Speed = stod(field);
-	getline(ss, field, ';');
-	Intensity = stod(field);
-	getline(ss, field, ';');
-	Memory = stod(field);
-	getline(ss, field, ';');
-	NumberOfPrintersInStock = stoi(field);
-	getline(ss, field, ';');
-	double NumberDPI = stod(field);
-	SetDPI(NumberDPI);
-	getline(ss, field, '\n');
-	int NumberOfPrintableColorsTemp = stoi(field);
-	SetNumberOfPrintableColors(NumberOfPrintableColorsTemp);
-}
+
 void Printer::Input()
 {
 	cout << "Enter printer number: ";
@@ -235,22 +117,7 @@ void Printer::Input()
 	MyFile.close();
 	Printer();
 }
-void Printer::Output(vector<Printer> data)
-{
-	cout << "+------------------------+---------+-------+-------------+--------+-------+" << endl;
-	cout << "| Printer number         | Color   | Speed |  Intensity  | Memory | Stock |" << endl;
-	cout << "+------------------------+---------+-------+-------------+--------+-------+" << endl;
-	for (const auto &p : data)
-	{
-		cout << "| " << setw(23) << left << p.PrinterNumber
-			 << "| " << setw(8) << left << p.Color
-			 << "|  " << setw(5) << left << p.Speed
-			 << "|\t" << setw(9) << left << p.Intensity
-			 << "| " << setw(7) << left << p.Memory
-			 << "| " << setw(6) << left << p.NumberOfPrintersInStock << "|" << endl;
-	}
-	cout << "+------------------------+---------+-------+-------------+--------+-------+" << endl;
-}
+
 LaserPrinter::LaserPrinter(int num, string color, double speed, double intensity, double memory, int stock, double dpi)
 	: Printer(num, color, speed, intensity, memory, stock), DPI(dpi) {}
 LaserPrinter::LaserPrinter()

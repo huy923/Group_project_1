@@ -9,24 +9,23 @@
 class ColorPrinter : public LaserPrinter
 {
 private:
-    int NumberOfPrintableColors;
+	int NumberOfPrintableColors;
 
 public:
-    ColorPrinter();
-    ColorPrinter(int, std::string, double, double, double, int, double, int);
-    int GetNumberOfPrintableColors() const { return NumberOfPrintableColors; }
-    void SetNumberOfPrintableColors(int NumberOfPrintableColors) { this->NumberOfPrintableColors = NumberOfPrintableColors; }
-    void Split(std::string);
-    void Input();
-    void CheckOpenFile();
-    void PomegranateChooseToOpenFile(std::vector<Printer> &, std::vector<ColorPrinter> &, std::vector<LaserPrinter> &);
-    void Output(std::vector<ColorPrinter>);
-    void GetFileData(std::string, std::vector<Printer> &, std::vector<ColorPrinter> &, std::vector<LaserPrinter> &);
-    void MoreData(std::string);
-    void Options();
-    void ShowPrinterStatistics();
+	ColorPrinter();
+	ColorPrinter(int, std::string, double, double, double, int, double, int);
+	int GetNumberOfPrintableColors() const { return NumberOfPrintableColors; }
+	void SetNumberOfPrintableColors(int NumberOfPrintableColors) { this->NumberOfPrintableColors = NumberOfPrintableColors; }
+	void Split(std::string);
+	void Input();
+	void CheckOpenFile();
+	void PomegranateChooseToOpenFile(std::vector<Printer> &, std::vector<ColorPrinter> &, std::vector<LaserPrinter> &);
+	void Output(std::vector<ColorPrinter>);
+	void GetFileData(std::string, std::vector<Printer> &, std::vector<ColorPrinter> &, std::vector<LaserPrinter> &);
+	void MoreData(std::string);
+	void Options();
+	void ShowPrinterStatistics();
 };
-
 
 ColorPrinter::ColorPrinter(int num, std::string color, double speed, double intensity, double memory, int stock, double dpi, int numColors)
 	: LaserPrinter(num, color, speed, intensity, memory, stock, dpi), NumberOfPrintableColors(numColors) {}
@@ -44,98 +43,98 @@ ColorPrinter::ColorPrinter()
 }
 void ColorPrinter::Split(std::string line)
 {
-    std::stringstream ss(line);
-    std::string field;
-    std::getline(ss, field, ';');
-    PrinterNumber = std::stoi(field);
-    std::getline(ss, Color, ';');
-    std::getline(ss, field, ';');
-    Speed = std::stod(field);
-    std::getline(ss, field, ';');
-    Intensity = std::stod(field);
-    std::getline(ss, field, ';');
-    Memory = std::stod(field);
-    std::getline(ss, field, ';');
-    NumberOfPrintersInStock = std::stoi(field);
-    std::getline(ss, field, ';');
-    double NumberDPI = std::stod(field);
-    SetDPI(NumberDPI);
-    std::getline(ss, field, '\n');
-    int NumberOfPrintableColorsTemp = std::stoi(field);
-    SetNumberOfPrintableColors(NumberOfPrintableColorsTemp);
+	std::stringstream ss(line);
+	std::string field;
+	std::getline(ss, field, ';');
+	PrinterNumber = std::stoi(field);
+	std::getline(ss, Color, ';');
+	std::getline(ss, field, ';');
+	Speed = std::stod(field);
+	std::getline(ss, field, ';');
+	Intensity = std::stod(field);
+	std::getline(ss, field, ';');
+	Memory = std::stod(field);
+	std::getline(ss, field, ';');
+	NumberOfPrintersInStock = std::stoi(field);
+	std::getline(ss, field, ';');
+	double NumberDPI = std::stod(field);
+	SetDPI(NumberDPI);
+	std::getline(ss, field, '\n');
+	int NumberOfPrintableColorsTemp = std::stoi(field);
+	SetNumberOfPrintableColors(NumberOfPrintableColorsTemp);
 }
 void ColorPrinter::Output(std::vector<ColorPrinter> data)
 {
-    std::cout << "+------------------------+---------+-------+-------------+--------+-------+-----+------------------+" << std::endl;
-    std::cout << "| Printer number         | Color   | Speed |  Intensity  | Memory | Stock | DPI | Number of colors |" << std::endl;
-    std::cout << "+------------------------+---------+-------+-------------+--------+-------+-----+------------------+" << std::endl;
-    for (const auto &p : data)
-    {
-        std::cout << "| " << std::setw(23) << std::left << p.PrinterNumber
-                  << "| " << std::setw(8) << std::left << p.Color
-                  << "|  " << std::setw(5) << std::left << p.Speed
-                  << "|\t" << std::setw(9) << std::left << p.Intensity
-                  << "| " << std::setw(7) << std::left << p.Memory
-                  << "| " << std::setw(6) << std::left << p.NumberOfPrintersInStock
-                  << "| " << std::setw(3) << std::left << p.GetDPI()
-                  << " | " << std::setw(17) << std::left << p.GetNumberOfPrintableColors() << "|" << std::endl;
-    }
-    std::cout << "+------------------------+---------+-------+-------------+--------+-------+-----+------------------+" << std::endl;
+	std::cout << "+------------------------+---------+-------+-------------+--------+-------+-----+------------------+" << std::endl;
+	std::cout << "| Printer number         | Color   | Speed |  Intensity  | Memory | Stock | DPI | Number of colors |" << std::endl;
+	std::cout << "+------------------------+---------+-------+-------------+--------+-------+-----+------------------+" << std::endl;
+	for (const auto &p : data)
+	{
+		std::cout << "| " << std::setw(23) << std::left << p.PrinterNumber
+				  << "| " << std::setw(8) << std::left << p.Color
+				  << "|  " << std::setw(5) << std::left << p.Speed
+				  << "|\t" << std::setw(9) << std::left << p.Intensity
+				  << "| " << std::setw(7) << std::left << p.Memory
+				  << "| " << std::setw(6) << std::left << p.NumberOfPrintersInStock
+				  << "| " << std::setw(3) << std::left << p.GetDPI()
+				  << " | " << std::setw(17) << std::left << p.GetNumberOfPrintableColors() << "|" << std::endl;
+	}
+	std::cout << "+------------------------+---------+-------+-------------+--------+-------+-----+------------------+" << std::endl;
 }
 void ColorPrinter::MoreData(std::string NameFile)
 {
-    std::string check1 = "Common printer warehouse.txt";
-    std::string check2 = "Laser printer warehouse.txt";
-    std::string check3 = "Color printer warehouse.txt";
-    if (NameFile == check1)
-    {
-        std::ifstream file("Common printer warehouse.txt");
-        Printer::Input();
-        file.close();
-    }
-    else if (NameFile == check2)
-    {
-        std::ifstream File("Laser printer warehouse.txt");
-        LaserPrinter::Input();
-        File.close();
-    }
-    else if (NameFile == check3)
-    {
-        std::ifstream file("Color printer warehouse.txt");
-        ColorPrinter::Input();
-        file.close();
-    }
+	std::string check1 = "Common printer warehouse.txt";
+	std::string check2 = "Laser printer warehouse.txt";
+	std::string check3 = "Color printer warehouse.txt";
+	if (NameFile == check1)
+	{
+		std::ifstream file("Common printer warehouse.txt");
+		Printer::Input();
+		file.close();
+	}
+	else if (NameFile == check2)
+	{
+		std::ifstream File("Laser printer warehouse.txt");
+		LaserPrinter::Input();
+		File.close();
+	}
+	else if (NameFile == check3)
+	{
+		std::ifstream file("Color printer warehouse.txt");
+		ColorPrinter::Input();
+		file.close();
+	}
 }
 void ColorPrinter::Options()
 {
-    std::cout << "In which file do you want to add data? " << std::endl;
-    std::cout << "Enter 1 : Add data to the file Common printer warehouse" << std::endl;
-    std::cout << "Enter 2 : Add data to the file Laser printer warehouse" << std::endl;
-    std::cout << "Enter 3 : Add data to the file Color printer warehouse" << std::endl;
-    int choice;
-    std::cin >> choice;
-    std::cin.ignore();
-    switch (choice)
-    {
-    case 1:
-    {
-        MoreData("Common printer warehouse.txt");
-    }
-    break;
-    case 2:
-    {
-        MoreData("Laser printer warehouse.txt");
-    }
-    break;
-    case 3:
-    {
-        MoreData("Color printer warehouse.txt");
-    }
-    break;
-    default:
-        std::cout << "Unknown choice" << std::endl;
-        break;
-    }
+	std::cout << "In which file do you want to add data? " << std::endl;
+	std::cout << "Enter 1 : Add data to the file Common printer warehouse" << std::endl;
+	std::cout << "Enter 2 : Add data to the file Laser printer warehouse" << std::endl;
+	std::cout << "Enter 3 : Add data to the file Color printer warehouse" << std::endl;
+	int choice;
+	std::cin >> choice;
+	std::cin.ignore();
+	switch (choice)
+	{
+	case 1:
+	{
+		MoreData("Common printer warehouse.txt");
+	}
+	break;
+	case 2:
+	{
+		MoreData("Laser printer warehouse.txt");
+	}
+	break;
+	case 3:
+	{
+		MoreData("Color printer warehouse.txt");
+	}
+	break;
+	default:
+		std::cout << "Unknown choice" << std::endl;
+		break;
+	}
 }
 
 void ColorPrinter::GetFileData(std::string NameFile, std::vector<Printer> &DataPrinter, std::vector<ColorPrinter> &DataColorPrinter, std::vector<LaserPrinter> &DataLaserPrinter)
@@ -221,7 +220,7 @@ void ColorPrinter::ShowPrinterStatistics()
 		std::ifstream file("Common printer warehouse.txt");
 		std::string Line;
 		bool success = false;
-		while (getline(file, Line))
+		while (std::getline(file, Line))
 		{
 			Printer NewPrinter;
 			NewPrinter.Printer::Split(Line);
@@ -351,23 +350,27 @@ void ColorPrinter::PomegranateChooseToOpenFile(std::vector<Printer> &DataPrinter
 }
 void ColorPrinter::Input()
 {
-	std::cout << "Enter printer number: ";
-	std::cin >> PrinterNumber;
-	std::cout << "Enter color: ";
-	std::cin >> Color;
-	std::cout << "Enter speed (pages per minute): ";
-	std::cin >> Speed;
-	std::cout << "Enter intensity : ";
-	std::cin >> Intensity;
-	std::cout << "Enter memory (MB): ";
-	std::cin >> Memory;
-	std::cout << "Enter number of printers in stock: ";
-	std::cin >> NumberOfPrintersInStock;
+	GeneralImport();
 	std::cout << "Enter number of dots per inch (dpi): ";
 	double DPI;
 	std::cin >> DPI;
+	while (std::cin.fail())
+	{
+		std::cout << "Invalid input. Please enter a valid number of dots per inch: ";
+		std::cin.clear();
+		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+		std::cin >> DPI;
+	}
 	std::cout << "Enter number of printable colors: ";
 	std::cin >> NumberOfPrintableColors;
+	while (std::cin.fail() or NumberOfPrintableColors < 0)
+	{
+		std::cout << "Invalid input. Please enter a valid number of printable color: ";
+		std::cin.clear();
+		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+		std::cin >> NumberOfPrintableColors;
+	}
+	
 	std::ofstream MyFile("Color printer warehouse.txt", std::ios::app);
 	if (MyFile.is_open())
 	{
@@ -375,26 +378,26 @@ void ColorPrinter::Input()
 	}
 	else
 	{
-		std::cout << "Error";
+		std::cout << "Error opening file " << std::endl;
 	}
 	std::cout << "Added data do you want to see (y,n) :";
-    std::string choice;
-    std::cin >> choice;
-    std::cin.ignore();
-    std::system("cls");
-	    if (choice == "y" or choice == "Y") 
-    {
-        std::vector<ColorPrinter> data;
-        std::ifstream file("Color printer warehouse.txt");
-        std::string line;
-        while (std::getline(file,line))
-        {
-            ColorPrinter printer;
-            printer.ColorPrinter::Split(line);
-            data.push_back(printer);
-        }
-        ColorPrinter::Output(data);
-    }
+	std::string choice;
+	std::cin >> choice;
+	std::cin.ignore();
+	std::system("cls");
+	if (choice == "y" or choice == "Y")
+	{
+		std::vector<ColorPrinter> data;
+		std::ifstream file("Color printer warehouse.txt");
+		std::string line;
+		while (std::getline(file, line))
+		{
+			ColorPrinter printer;
+			printer.ColorPrinter::Split(line);
+			data.push_back(printer);
+		}
+		ColorPrinter::Output(data);
+	}
 	MyFile.close();
 	std::system("cls");
 }

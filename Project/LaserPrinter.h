@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <sstream>
+#include <limits>
 class LaserPrinter : public Printer
 {
 private:
@@ -53,29 +54,26 @@ void LaserPrinter::Split(std::string line)
 
 void LaserPrinter::Input()
 {
-	std::cout << "Enter printer number: ";
-	std::cin >> PrinterNumber;
-	std::cout << "Enter color: ";
-	std::cin >> Color;
-	std::cout << "Enter speed (pages per minute): ";
-	std::cin >> Speed;
-	std::cout << "Enter intensity : ";
-	std::cin >> Intensity;
-	std::cout << "Enter memory (MB): ";
-	std::cin >> Memory;
-	std::cout << "Enter number of printers in stock: ";
-	std::cin >> NumberOfPrintersInStock;
+	GeneralImport();
 	std::cout << "Enter number of dots per inch (dpi): ";
 	std::cin >> DPI;
+	while (std::cin.fail())
+	{
+		std::cout << "Invalid input. Please enter a valid number of dots per inch: ";
+		std::cin.clear();
+		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+		std::cin >> DPI;
+	}
+
 	std::ofstream MyFile("Laser printer warehouse.txt", std::ios::app);
 	MyFile << PrinterNumber << ";" << Color << ";" << Speed << ";" << Intensity << ";" << Memory << ";" << NumberOfPrintersInStock << ";" << DPI << "\n";
 	std::system("cls");
-	std::cout << "Added data do you want to see (y,n) :";
+	std::cout << "Added data. Do you want to see (y/n): ";
 	std::string choice;
 	std::cin >> choice;
 	std::cin.ignore();
 	std::system("cls");
-	if (choice == "y" or choice == "Y")
+	if (choice == "y" || choice == "Y")
 	{
 		std::vector<LaserPrinter> data;
 		std::ifstream file("Laser printer warehouse.txt");
@@ -100,12 +98,12 @@ void LaserPrinter::Output(std::vector<LaserPrinter> data)
 	for (const auto &p : data)
 	{
 		std::cout << "| " << std::setw(23) << std::left << p.PrinterNumber
-			 << "| " << std::setw(8) << std::left << p.Color
-			 << "|  " << std::setw(5) << std::left << p.Speed
-			 << "|\t" << std::setw(9) << std::left << p.Intensity
-			 << "| " << std::setw(7) << std::left << p.Memory
-			 << "| " << std::setw(6) << std::left << p.NumberOfPrintersInStock
-			 << "| " << std::setw(4) << p.GetDPI() << "|" << std::endl;
+				  << "| " << std::setw(8) << std::left << p.Color
+				  << "|  " << std::setw(5) << std::left << p.Speed
+				  << "|\t" << std::setw(9) << std::left << p.Intensity
+				  << "| " << std::setw(7) << std::left << p.Memory
+				  << "| " << std::setw(6) << std::left << p.NumberOfPrintersInStock
+				  << "| " << std::setw(4) << p.GetDPI() << "|" << std::endl;
 	}
 	std::cout << "+------------------------+---------+-------+-------------+--------+-------+-----+" << std::endl;
 }

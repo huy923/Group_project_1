@@ -13,12 +13,18 @@ private:
 public:
 	LaserPrinter();
 	LaserPrinter(int, std::string, double, double, double, int, double);
-	double GetDPI() const { return DPI; }
-	void SetDPI(double DPI) { this->DPI = DPI; }
+	double GetDPI() const;
+	void SetDPI(double);
 	void Input();
 	void Split(std::string);
 	void Output(std::vector<LaserPrinter>);
+	void Print() override;
 };
+double LaserPrinter::GetDPI() const { return DPI;}
+void LaserPrinter::SetDPI(double DPI) { this->DPI = DPI; }
+void LaserPrinter::Print(){
+ std::cout << "LaserPrinter" << std::endl;
+}
 LaserPrinter::LaserPrinter(int num, std::string color, double speed, double intensity, double memory, int stock, double dpi)
 	: Printer(num, color, speed, intensity, memory, stock), DPI(dpi) {}
 LaserPrinter::LaserPrinter()
@@ -54,7 +60,7 @@ void LaserPrinter::Split(std::string line)
 
 void LaserPrinter::Input()
 {
-	GeneralImport();
+	Printer::GeneralImport();
 	std::cout << "Enter number of dots per inch (dpi): ";
 	std::cin >> DPI;
 	while (std::cin.fail())
@@ -68,11 +74,13 @@ void LaserPrinter::Input()
 	std::ofstream MyFile("Laser printer warehouse.txt", std::ios::app);
 	MyFile << PrinterNumber << ";" << Color << ";" << Speed << ";" << Intensity << ";" << Memory << ";" << NumberOfPrintersInStock << ";" << DPI << "\n";
 	std::system("cls");
+
 	std::cout << "Added data. Do you want to see (y/n): ";
 	std::string choice;
 	std::cin >> choice;
 	std::cin.ignore();
 	std::system("cls");
+
 	if (choice == "y" || choice == "Y")
 	{
 		std::vector<LaserPrinter> data;
@@ -95,6 +103,7 @@ void LaserPrinter::Output(std::vector<LaserPrinter> data)
 	std::cout << "+------------------------+---------+-------+-------------+--------+-------+-----+" << std::endl;
 	std::cout << "| Printer number         | Color   | Speed |  Intensity  | Memory | Stock | DPI |" << std::endl;
 	std::cout << "+------------------------+---------+-------+-------------+--------+-------+-----+" << std::endl;
+
 	for (const auto &p : data)
 	{
 		std::cout << "| " << std::setw(23) << std::left << p.PrinterNumber
@@ -105,6 +114,7 @@ void LaserPrinter::Output(std::vector<LaserPrinter> data)
 				  << "| " << std::setw(6) << std::left << p.NumberOfPrintersInStock
 				  << "| " << std::setw(4) << p.GetDPI() << "|" << std::endl;
 	}
+
 	std::cout << "+------------------------+---------+-------+-------------+--------+-------+-----+" << std::endl;
 }
 #endif

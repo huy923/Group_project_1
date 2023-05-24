@@ -1,5 +1,4 @@
 #include <iostream>
-#include <string>
 #include <vector>
 #include <fstream>
 #include <iomanip>
@@ -7,7 +6,6 @@
 #include "LaserPrinter.h"
 #include "ColorPrinter.h"
 
-// main is here
 int main(int argc, char const *argv[])
 {
 	std::vector<Printer> DataPrinter;
@@ -34,9 +32,9 @@ int main(int argc, char const *argv[])
 		case 3:
 			NewData.ShowPrinterStatistics();
 			break;
-		// case 4:
+		case 4:	
 
-		// 	break;
+			break;
 		default:
 			std::cout << "Bye! 💖💖💖" << std::endl;
 			exit(1);
@@ -47,5 +45,6 @@ int main(int argc, char const *argv[])
 	DataPrinter.clear();
 	DataLaserPrinter.clear();
 	DataColorPrinter.clear();
+	std::getchar();
 	return 0;
 }

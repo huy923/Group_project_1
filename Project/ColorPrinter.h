@@ -6,6 +6,7 @@
 #include <vector>
 #include <string>
 #include <istream>
+
 class ColorPrinter : public LaserPrinter
 {
 private:
@@ -14,8 +15,8 @@ private:
 public:
 	ColorPrinter();
 	ColorPrinter(int, std::string, double, double, double, int, double, int);
-	int GetNumberOfPrintableColors() const { return NumberOfPrintableColors; }
-	void SetNumberOfPrintableColors(int NumberOfPrintableColors) { this->NumberOfPrintableColors = NumberOfPrintableColors; }
+	int GetNumberOfPrintableColors() const;
+	void SetNumberOfPrintableColors(int);
 	void Split(std::string);
 	void Input();
 	void CheckOpenFile();
@@ -25,7 +26,11 @@ public:
 	void MoreData(std::string);
 	void Options();
 	void ShowPrinterStatistics();
+	void Print() override;
 };
+void ColorPrinter::Print() { std::cout << "Color Printer" << std::endl; }
+int ColorPrinter::GetNumberOfPrintableColors() const { return NumberOfPrintableColors; }
+void ColorPrinter::SetNumberOfPrintableColors(int NumberOfPrintableColors) { this->NumberOfPrintableColors = NumberOfPrintableColors; }
 
 ColorPrinter::ColorPrinter(int num, std::string color, double speed, double intensity, double memory, int stock, double dpi, int numColors)
 	: LaserPrinter(num, color, speed, intensity, memory, stock, dpi), NumberOfPrintableColors(numColors) {}
@@ -148,9 +153,9 @@ void ColorPrinter::GetFileData(std::string NameFile, std::vector<Printer> &DataP
 		std::string Line;
 		while (std::getline(file, Line))
 		{
-			Printer NewPrinter;
-			NewPrinter.Printer::Split(Line);
-			DataPrinter.push_back(NewPrinter);
+			Printer *NewPrinter;
+			NewPrinter->Printer::Split(Line);
+			DataPrinter.push_back(*NewPrinter);
 		}
 		Printer::Output(DataPrinter);
 		file.close();
@@ -222,12 +227,12 @@ void ColorPrinter::ShowPrinterStatistics()
 		bool success = false;
 		while (std::getline(file, Line))
 		{
-			Printer NewPrinter;
-			NewPrinter.Printer::Split(Line);
-			if (NewPrinter.GetNumberOfPrintersInStock() < 5)
+			Printer *NewPrinter;
+			NewPrinter->Printer::Split(Line);
+			if (NewPrinter->GetNumberOfPrintersInStock() < 5)
 			{
 				success = true;
-				data1.push_back(NewPrinter);
+				data1.push_back(*NewPrinter);
 			}
 		}
 		if (success)
@@ -370,7 +375,7 @@ void ColorPrinter::Input()
 		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 		std::cin >> NumberOfPrintableColors;
 	}
-	
+
 	std::ofstream MyFile("Color printer warehouse.txt", std::ios::app);
 	if (MyFile.is_open())
 	{

@@ -5,22 +5,22 @@
 #include ".\Printer.h"
 #include ".\LaserPrinter.h"
 #include ".\ColorPrinter.h"
-
+using namespace std;
 int main(int argc, char const *argv[])
 {
-	std::vector<Printer> DataPrinter;
-	std::vector<ColorPrinter> DataColorPrinter;
-	std::vector<LaserPrinter> DataLaserPrinter;
+	vector<Printer> DataPrinter;
+	vector<ColorPrinter> DataColorPrinter;
+	vector<LaserPrinter> DataLaserPrinter;
 	ColorPrinter NewData;
 	for (;;)
 	{
-		std::cout << "\nEnter 1: Add new data" << std::endl;
-		std::cout << "Enter 2: Export data" << std::endl;
-		std::cout << "Enter 3: Show missing data " << std::endl;
+		cout << "\nEnter 1: Add new data" << endl;
+		cout << "Enter 2: Export data" << endl;
+		cout << "Enter 3: Show missing data " << endl;
 
 		int choice;
-		std::cin >> choice;
-		std::system("cls");
+		cin >> choice;
+		system("cls");
 		switch (choice)
 		{
 		case 1:
@@ -45,7 +45,7 @@ int main(int argc, char const *argv[])
 		}
 		default:
 		{
-			std::cout << "Bye! 💖💖💖" << std::endl;
+			cout << "Bye! 💖💖💖" << endl;
 			exit(1);
 			break;
 		}
@@ -54,6 +54,6 @@ int main(int argc, char const *argv[])
 	DataPrinter.clear();
 	DataLaserPrinter.clear();
 	DataColorPrinter.clear();
-	std::getchar();
+	getchar();
 	return 0;
 }

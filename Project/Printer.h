@@ -8,12 +8,12 @@
 #include <fstream>
 #include <limits>
 #include <iomanip>
-
+using namespace std;
 class Printer
 {
 protected:
 	int PrinterNumber;
-	std::string Color;
+	string Color;
 	double Speed;
 	double Intensity;
 	double Memory;
@@ -21,16 +21,16 @@ protected:
 
 public:
 	Printer();
-	Printer(int, std::string, double, double, double, int);
+	Printer(int, string, double, double, double, int);
 	int GetNumberOfPrintersInStock();
-	void Split(std::string);
+	void Split(string);
 	void Input();
-	void Output(std::vector<Printer>) const;
+	void Output(vector<Printer>) const;
 	void GeneralImport();
 	virtual void Print();
 };
 void Printer::Print(){
-	std::cout << "Printer\n";
+	cout << "Printer\n";
 }
 int Printer::GetNumberOfPrintersInStock()
 {
@@ -46,46 +46,46 @@ Printer::Printer()
 	Memory = 0.0;
 	NumberOfPrintersInStock = 0;
 }
-Printer::Printer(int num, std::string color, double speed, double intensity, double memory, int stock)
+Printer::Printer(int num, string color, double speed, double intensity, double memory, int stock)
 	: PrinterNumber(num), Color(color), Speed(speed), Intensity(intensity), Memory(memory), NumberOfPrintersInStock(stock) {}
-void Printer::Split(std::string line)
+void Printer::Split(string line)
 {
-	std::stringstream ss(line);
-	std::string field;
-	std::getline(ss, field, ';');
-	PrinterNumber = std::stoi(field);
-	std::getline(ss, Color, ';');
-	std::getline(ss, field, ';');
-	Speed = std::stod(field);
-	std::getline(ss, field, ';');
-	Intensity = std::stod(field);
-	std::getline(ss, field, ';');
-	Memory = std::stod(field);
-	std::getline(ss, field, '\n');
-	NumberOfPrintersInStock = std::stoi(field);
+	stringstream ss(line);
+	string field;
+	getline(ss, field, ';');
+	PrinterNumber = stoi(field);
+	getline(ss, Color, ';');
+	getline(ss, field, ';');
+	Speed = stod(field);
+	getline(ss, field, ';');
+	Intensity = stod(field);
+	getline(ss, field, ';');
+	Memory = stod(field);
+	getline(ss, field, '\n');
+	NumberOfPrintersInStock = stoi(field);
 }
 
 void Printer::Input()
 {
 	GeneralImport();
-	std::ofstream MyFile("Common printer warehouse.txt", std::ios::app);
+	ofstream MyFile("Common printer warehouse.txt", ios::app);
 	MyFile << PrinterNumber << ";" << Color << ";" << Speed << ";" << Intensity << ";" << Memory << ";" << NumberOfPrintersInStock << "\n";
 	MyFile.close();
 
-	std::cout << "\nAdded data. Do you want to see the data (y/n): ";
-	std::string choice;
-	std::cin >> choice;
-	std::cin.ignore();
-	std::cout << std::endl;
+	cout << "\nAdded data. Do you want to see the data (y/n): ";
+	string choice;
+	cin >> choice;
+	cin.ignore();
+	cout << endl;
 
 	if (choice == "y" || choice == "Y")
 	{
-		std::ifstream file("Common printer warehouse.txt");
+		ifstream file("Common printer warehouse.txt");
 		if (file)
 		{
-			std::vector<Printer> data;
-			std::string line;
-			while (std::getline(file, line))
+			vector<Printer> data;
+			string line;
+			while (getline(file, line))
 			{
 				Printer printer;
 				printer.Split(line);
@@ -95,88 +95,88 @@ void Printer::Input()
 		}
 		else
 		{
-			std::cout << "No data available." << std::endl;
+			cout << "No data available." << endl;
 		}
 		file.close();
 	}
 }
 
-void Printer::Output(std::vector<Printer> data) const
+void Printer::Output(vector<Printer> data) const
 {
-	std::cout << "+------------------------+---------+-------+-------------+--------+-------+" << std::endl;
-	std::cout << "| Printer number         | Color   | Speed |  Intensity  | Memory | Stock |" << std::endl;
-	std::cout << "+------------------------+---------+-------+-------------+--------+-------+" << std::endl;
+	cout << "+------------------------+---------+-------+-------------+--------+-------+" << endl;
+	cout << "| Printer number         | Color   | Speed |  Intensity  | Memory | Stock |" << endl;
+	cout << "+------------------------+---------+-------+-------------+--------+-------+" << endl;
 	for (const auto &p : data)
 	{
-		std::cout << "| " << std::setw(23) << std::left << p.PrinterNumber
-				  << "| " << std::setw(8) << std::left << p.Color
-				  << "|  " << std::setw(5) << std::left << p.Speed
-				  << "|\t" << std::setw(9) << std::left << p.Intensity
-				  << "| " << std::setw(7) << std::left << p.Memory
-				  << "| " << std::setw(6) << std::left << p.NumberOfPrintersInStock << "|" << std::endl;
+		cout << "| " << setw(23) << left << p.PrinterNumber
+				  << "| " << setw(8) << left << p.Color
+				  << "|  " << setw(5) << left << p.Speed
+				  << "|\t" << setw(9) << left << p.Intensity
+				  << "| " << setw(7) << left << p.Memory
+				  << "| " << setw(6) << left << p.NumberOfPrintersInStock << "|" << endl;
 	}
-	std::cout << "+------------------------+---------+-------+-------------+--------+-------+" << std::endl;
+	cout << "+------------------------+---------+-------+-------------+--------+-------+" << endl;
 }
 void Printer::GeneralImport()
 {
-	std::cout << "Enter printer number: ";
-	std::cin >> PrinterNumber;
-	while (std::cin.fail() or PrinterNumber < 0)
+	cout << "Enter printer number: ";
+	cin >> PrinterNumber;
+	while (cin.fail() or PrinterNumber < 0)
 	{
-		std::cout << "Invalid input. Please enter a valid printer number: ";
-		std::cin.clear();
-		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-		std::cin >> PrinterNumber;
+		cout << "Invalid input. Please enter a valid printer number: ";
+		cin.clear();
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
+		cin >> PrinterNumber;
 	}
 
-	std::cout << "Enter color: ";
-	std::cin >> Color;
-	while (std::cin.fail())
+	cout << "Enter color: ";
+	cin >> Color;
+	while (cin.fail())
 	{
-		std::cout << "Invalid input. Please enter a valid color: ";
-		std::cin.clear();
-		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-		std::cin >> Color;
+		cout << "Invalid input. Please enter a valid color: ";
+		cin.clear();
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
+		cin >> Color;
 	}
 
-	std::cout << "Enter speed (pages per minute): ";
-	std::cin >> Speed;
-	while (std::cin.fail() or Speed < 0)
+	cout << "Enter speed (pages per minute): ";
+	cin >> Speed;
+	while (cin.fail() or Speed < 0)
 	{
-		std::cout << "Invalid input. Please enter a valid speed: ";
-		std::cin.clear();
-		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-		std::cin >> Speed;
+		cout << "Invalid input. Please enter a valid speed: ";
+		cin.clear();
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
+		cin >> Speed;
 	}
 
-	std::cout << "Enter intensity: ";
-	std::cin >> Intensity;
-	while (std::cin.fail() or Intensity < 0)
+	cout << "Enter intensity: ";
+	cin >> Intensity;
+	while (cin.fail() or Intensity < 0)
 	{
-		std::cout << "Invalid input. Please enter a valid intensity: ";
-		std::cin.clear();
-		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-		std::cin >> Intensity;
+		cout << "Invalid input. Please enter a valid intensity: ";
+		cin.clear();
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
+		cin >> Intensity;
 	}
 
-	std::cout << "Enter memory (MB): ";
-	std::cin >> Memory;
-	while (std::cin.fail() or Memory < 0)
+	cout << "Enter memory (MB): ";
+	cin >> Memory;
+	while (cin.fail() or Memory < 0)
 	{
-		std::cout << "Invalid input. Please enter a valid memory: ";
-		std::cin.clear();
-		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-		std::cin >> Memory;
+		cout << "Invalid input. Please enter a valid memory: ";
+		cin.clear();
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
+		cin >> Memory;
 	}
 
-	std::cout << "Enter number of printers in stock: ";
-	std::cin >> NumberOfPrintersInStock;
-	while (std::cin.fail() or NumberOfPrintersInStock < 0)
+	cout << "Enter number of printers in stock: ";
+	cin >> NumberOfPrintersInStock;
+	while (cin.fail() or NumberOfPrintersInStock < 0)
 	{
-		std::cout << "Invalid input. Please enter a valid number of printers in stock: ";
-		std::cin.clear();
-		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-		std::cin >> NumberOfPrintersInStock;
+		cout << "Invalid input. Please enter a valid number of printers in stock: ";
+		cin.clear();
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
+		cin >> NumberOfPrintersInStock;
 	}
 }
 #endif

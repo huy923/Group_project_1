@@ -20,10 +20,17 @@ public:
 	void Output(std::vector<LaserPrinter>);
 	void Print() override;
 };
-double LaserPrinter::GetDPI() const { return DPI;}
-void LaserPrinter::SetDPI(double DPI) { this->DPI = DPI; }
-void LaserPrinter::Print(){
- std::cout << "LaserPrinter" << std::endl;
+double LaserPrinter::GetDPI() const
+{
+	return DPI;
+}
+void LaserPrinter::SetDPI(double DPI)
+{
+	this->DPI = DPI;
+}
+void LaserPrinter::Print()
+{
+	std::cout << "LaserPrinter" << std::endl;
 }
 LaserPrinter::LaserPrinter(int num, std::string color, double speed, double intensity, double memory, int stock, double dpi)
 	: Printer(num, color, speed, intensity, memory, stock), DPI(dpi) {}
@@ -48,7 +55,7 @@ void LaserPrinter::Split(std::string line)
 	std::getline(ss, field, ';');
 	Speed = std::stod(field);
 	std::getline(ss, field, ';');
-	Intensity = std::stod(field);
+	Intensity = stod(field);
 	std::getline(ss, field, ';');
 	Memory = std::stod(field);
 	std::getline(ss, field, ';');
@@ -94,6 +101,7 @@ void LaserPrinter::Input()
 		}
 		LaserPrinter::Output(data);
 	}
+
 	MyFile.close();
 	std::system("cls");
 }

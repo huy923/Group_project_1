@@ -21,15 +21,21 @@ public:
 	void Input();
 	void CheckOpenFile();
 	void PomegranateChooseToOpenFile(std::vector<Printer> &, std::vector<ColorPrinter> &, std::vector<LaserPrinter> &);
-	void Output(std::vector<ColorPrinter>);
+	void Output(std::vector<ColorPrinter>) const;
 	void GetFileData(std::string, std::vector<Printer> &, std::vector<ColorPrinter> &, std::vector<LaserPrinter> &);
 	void MoreData(std::string);
 	void Options();
 	void ShowPrinterStatistics();
 	void Print() override;
 };
-void ColorPrinter::Print() { std::cout << "Color Printer" << std::endl; }
-int ColorPrinter::GetNumberOfPrintableColors() const { return NumberOfPrintableColors; }
+void ColorPrinter::Print()
+{
+	std::cout << "Color Printer" << std::endl;
+}
+int ColorPrinter::GetNumberOfPrintableColors() const
+{
+	return NumberOfPrintableColors;
+}
 void ColorPrinter::SetNumberOfPrintableColors(int NumberOfPrintableColors) { this->NumberOfPrintableColors = NumberOfPrintableColors; }
 
 ColorPrinter::ColorPrinter(int num, std::string color, double speed, double intensity, double memory, int stock, double dpi, int numColors)
@@ -68,7 +74,7 @@ void ColorPrinter::Split(std::string line)
 	int NumberOfPrintableColorsTemp = std::stoi(field);
 	SetNumberOfPrintableColors(NumberOfPrintableColorsTemp);
 }
-void ColorPrinter::Output(std::vector<ColorPrinter> data)
+void ColorPrinter::Output(std::vector<ColorPrinter> data) const
 {
 	std::cout << "+------------------------+---------+-------+-------------+--------+-------+-----+------------------+" << std::endl;
 	std::cout << "| Printer number         | Color   | Speed |  Intensity  | Memory | Stock | DPI | Number of colors |" << std::endl;
@@ -124,18 +130,18 @@ void ColorPrinter::Options()
 	case 1:
 	{
 		MoreData("Common printer warehouse.txt");
+		break;
 	}
-	break;
 	case 2:
 	{
 		MoreData("Laser printer warehouse.txt");
+		break;
 	}
-	break;
 	case 3:
 	{
 		MoreData("Color printer warehouse.txt");
+		break;
 	}
-	break;
 	default:
 		std::cout << "Unknown choice" << std::endl;
 		break;
@@ -153,9 +159,9 @@ void ColorPrinter::GetFileData(std::string NameFile, std::vector<Printer> &DataP
 		std::string Line;
 		while (std::getline(file, Line))
 		{
-			Printer *NewPrinter;
-			NewPrinter->Printer::Split(Line);
-			DataPrinter.push_back(*NewPrinter);
+			Printer NewPrinter;
+			NewPrinter.Printer::Split(Line);
+			DataPrinter.push_back(NewPrinter);
 		}
 		Printer::Output(DataPrinter);
 		file.close();
@@ -227,12 +233,12 @@ void ColorPrinter::ShowPrinterStatistics()
 		bool success = false;
 		while (std::getline(file, Line))
 		{
-			Printer *NewPrinter;
-			NewPrinter->Printer::Split(Line);
-			if (NewPrinter->GetNumberOfPrintersInStock() < 5)
+			Printer NewPrinter;
+			NewPrinter.Printer::Split(Line);
+			if (NewPrinter.GetNumberOfPrintersInStock() < 5)
 			{
 				success = true;
-				data1.push_back(*NewPrinter);
+				data1.push_back(NewPrinter);
 			}
 		}
 		if (success)
@@ -243,11 +249,11 @@ void ColorPrinter::ShowPrinterStatistics()
 		}
 		else
 		{
-			std::cout << "No printer is messing" << std::endl;
+			std::cout << "No printer is mssing" << std::endl;
 		}
 		file.close();
+		break;
 	}
-	break;
 	case 2:
 	{
 		std::ifstream file("Laser printer warehouse.txt");
@@ -274,8 +280,8 @@ void ColorPrinter::ShowPrinterStatistics()
 			std::cout << "No printer is messing" << std::endl;
 		}
 		file.close();
+		break;
 	}
-	break;
 	case 3:
 	{
 		std::ifstream file("Color printer warehouse.txt");
@@ -302,8 +308,8 @@ void ColorPrinter::ShowPrinterStatistics()
 			std::cout << "No printer is messing" << std::endl;
 		}
 		file.close();
+		break;
 	}
-	break;
 	default:
 		std::cout << "ERROR: Unknown" << std::endl;
 		break;
@@ -311,7 +317,7 @@ void ColorPrinter::ShowPrinterStatistics()
 }
 void ColorPrinter::PomegranateChooseToOpenFile(std::vector<Printer> &DataPrinter, std::vector<ColorPrinter> &DataColorPrinter, std::vector<LaserPrinter> &DataLaserPrinter)
 {
-	std::cout << "Enter your selection\n";
+	std::cout << "\nEnter your selection\n";
 	std::cout << "1. Common printer warehouse\n";
 	std::cout << "2. Laser printer warehouse\n";
 	std::cout << "3. Color printer warehouse\n";
@@ -327,8 +333,8 @@ void ColorPrinter::PomegranateChooseToOpenFile(std::vector<Printer> &DataPrinter
 		std::system("cls");
 		GetFileData("Common printer warehouse.txt", DataPrinter, DataColorPrinter, DataLaserPrinter);
 		inFile.close();
-	}
 	break;
+	}
 	case 2:
 	{
 		// read data from Laser printer warehouse.txt file
@@ -336,9 +342,9 @@ void ColorPrinter::PomegranateChooseToOpenFile(std::vector<Printer> &DataPrinter
 		std::system("cls");
 		GetFileData("Laser printer warehouse.txt", DataPrinter, DataColorPrinter, DataLaserPrinter);
 		inFile.close();
+	break;
 	}
 
-	break;
 	case 3:
 	{
 		// read data from Color printer warehouse.txt file
@@ -346,8 +352,8 @@ void ColorPrinter::PomegranateChooseToOpenFile(std::vector<Printer> &DataPrinter
 		std::system("cls");
 		GetFileData("Color printer warehouse.txt", DataPrinter, DataColorPrinter, DataLaserPrinter);
 		inFile.close();
-	}
 	break;
+	}
 	default:
 		std::cout << "Invalid selection. Please choose again." << std::endl;
 		break;

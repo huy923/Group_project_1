@@ -1,11 +1,14 @@
 #ifndef PRINTER_H
-#define PRINTER_H
+#define PRINTER_H 
 
 #include <string>
 #include <vector>
 #include <sstream>
 #include <iostream>
+#include <fstream>
 #include <limits>
+#include <iomanip>
+
 class Printer
 {
 protected:
@@ -22,14 +25,17 @@ public:
 	int GetNumberOfPrintersInStock();
 	void Split(std::string);
 	void Input();
-	void Output(std::vector<Printer>);
+	void Output(std::vector<Printer>) const;
 	void GeneralImport();
 	virtual void Print();
 };
 void Printer::Print(){
 	std::cout << "Printer\n";
 }
-int Printer::GetNumberOfPrintersInStock() { return NumberOfPrintersInStock; }
+int Printer::GetNumberOfPrintersInStock()
+{
+	return NumberOfPrintersInStock;
+}
 
 Printer::Printer()
 {
@@ -61,12 +67,12 @@ void Printer::Split(std::string line)
 
 void Printer::Input()
 {
-	Printer::GeneralImport();
+	GeneralImport();
 	std::ofstream MyFile("Common printer warehouse.txt", std::ios::app);
 	MyFile << PrinterNumber << ";" << Color << ";" << Speed << ";" << Intensity << ";" << Memory << ";" << NumberOfPrintersInStock << "\n";
 	MyFile.close();
 
-	std::cout << "Added data. Do you want to see the data (y/n): ";
+	std::cout << "\nAdded data. Do you want to see the data (y/n): ";
 	std::string choice;
 	std::cin >> choice;
 	std::cin.ignore();
@@ -81,9 +87,9 @@ void Printer::Input()
 			std::string line;
 			while (std::getline(file, line))
 			{
-				Printer *printer;
-				printer->Split(line);
-				data.push_back(*printer);
+				Printer printer;
+				printer.Split(line);
+				data.push_back(printer);
 			}
 			Printer::Output(data);
 		}
@@ -95,7 +101,7 @@ void Printer::Input()
 	}
 }
 
-void Printer::Output(std::vector<Printer> data)
+void Printer::Output(std::vector<Printer> data) const
 {
 	std::cout << "+------------------------+---------+-------+-------------+--------+-------+" << std::endl;
 	std::cout << "| Printer number         | Color   | Speed |  Intensity  | Memory | Stock |" << std::endl;

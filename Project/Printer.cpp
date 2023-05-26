@@ -2,9 +2,9 @@
 #include <vector>
 #include <fstream>
 #include <iomanip>
-#include "Printer.h"
-#include "LaserPrinter.h"
-#include "ColorPrinter.h"
+#include ".\Printer.h"
+#include ".\LaserPrinter.h"
+#include ".\ColorPrinter.h"
 
 int main(int argc, char const *argv[])
 {
@@ -14,7 +14,7 @@ int main(int argc, char const *argv[])
 	ColorPrinter NewData;
 	for (;;)
 	{
-		std::cout << "Enter 1: Add new data" << std::endl;
+		std::cout << "\nEnter 1: Add new data" << std::endl;
 		std::cout << "Enter 2: Export data" << std::endl;
 		std::cout << "Enter 3: Show missing data " << std::endl;
 
@@ -24,24 +24,33 @@ int main(int argc, char const *argv[])
 		switch (choice)
 		{
 		case 1:
+		{
 			NewData.Options();
 			break;
+		}
 		case 2:
+		{
 			NewData.PomegranateChooseToOpenFile(DataPrinter, DataColorPrinter, DataLaserPrinter);
 			break;
+		}
 		case 3:
+		{
 			NewData.ShowPrinterStatistics();
 			break;
-		case 4:	
-
+		}
+		case 4:
+		{
+			// NewData.
 			break;
+		}
 		default:
+		{
 			std::cout << "Bye! 💖💖💖" << std::endl;
 			exit(1);
 			break;
 		}
+		}
 	}
-
 	DataPrinter.clear();
 	DataLaserPrinter.clear();
 	DataColorPrinter.clear();

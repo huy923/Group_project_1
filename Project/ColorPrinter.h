@@ -1,12 +1,14 @@
 #ifndef COLORPRINTER_H
 #define COLORPRINTER_H
-#include "Printer.h"
-#include "LaserPrinter.h"
+
+#include ".\Printer.h"
+#include ".\LaserPrinter.h"
 #include <iostream>
 #include <vector>
 #include <string>
 #include <istream>
 using namespace std;
+
 class ColorPrinter : public LaserPrinter
 {
 private:
@@ -82,13 +84,13 @@ void ColorPrinter::Output(vector<ColorPrinter> data) const
 	for (const auto &p : data)
 	{
 		cout << "| " << setw(23) << left << p.PrinterNumber
-				  << "| " << setw(8) << left << p.Color
-				  << "|  " << setw(5) << left << p.Speed
-				  << "|\t" << setw(9) << left << p.Intensity
-				  << "| " << setw(7) << left << p.Memory
-				  << "| " << setw(6) << left << p.NumberOfPrintersInStock
-				  << "| " << setw(3) << left << p.GetDPI()
-				  << " | " << setw(17) << left << p.GetNumberOfPrintableColors() << "|" << endl;
+			 << "| " << setw(8) << left << p.Color
+			 << "|  " << setw(5) << left << p.Speed
+			 << "|\t" << setw(9) << left << p.Intensity
+			 << "| " << setw(7) << left << p.Memory
+			 << "| " << setw(6) << left << p.NumberOfPrintersInStock
+			 << "| " << setw(3) << left << p.GetDPI()
+			 << " | " << setw(17) << left << p.GetNumberOfPrintableColors() << "|" << endl;
 	}
 	cout << "+------------------------+---------+-------+-------------+--------+-------+-----+------------------+" << endl;
 }
@@ -118,10 +120,13 @@ void ColorPrinter::MoreData(string NameFile)
 }
 void ColorPrinter::Options()
 {
-	cout << "In which file do you want to add data? " << endl;
-	cout << "Enter 1 : Add data to the file Common printer warehouse" << endl;
-	cout << "Enter 2 : Add data to the file Laser printer warehouse" << endl;
-	cout << "Enter 3 : Add data to the file Color printer warehouse" << endl;
+	cout << "**************************************************************" << endl;
+	cout << "* In which file do you want to add data?                     *" << endl;
+	cout << "* 👉 Enter 1 : Add data to the file Common printer warehouse  *" << endl;
+	cout << "* 👉 Enter 2 : Add data to the file Laser printer warehouse   *" << endl;
+	cout << "* 👉 Enter 3 : Add data to the file Color printer warehouse   *" << endl;
+	cout << "**************************************************************" << endl;
+	cout << " 😊 Your choose the number : ";
 	int choice;
 	cin >> choice;
 	cin.ignore();
@@ -216,11 +221,13 @@ void ColorPrinter::ShowPrinterStatistics()
 	vector<Printer> data1;
 	vector<LaserPrinter> data2;
 	vector<ColorPrinter> data3;
-
-	cout << "What printer stats do you want to see? " << endl;
-	cout << "Enter 1: Printer" << endl;
-	cout << "Enter 2: Laser printer" << endl;
-	cout << "Enter 3: Color printer" << endl;
+	cout << "*******************************************************" << endl;
+	cout << "* 🤗 What printer stats do you want to see (´･ω･`)?   *" << endl;
+	cout << "* 👉 Enter 1: Printer                                 *" << endl;
+	cout << "* 👉 Enter 2: Laser printer                           *" << endl;
+	cout << "* 👉 Enter 3: Color printer                           *" << endl;
+	cout << "*******************************************************" << endl;
+	cout << " 😎 Your choose the number : ";
 	int choice;
 	cin >> choice;
 	cin.ignore();
@@ -249,7 +256,7 @@ void ColorPrinter::ShowPrinterStatistics()
 		}
 		else
 		{
-			cout << "No printer is mssing" << endl;
+			cout << "No printer is messing" << endl;
 		}
 		file.close();
 		break;
@@ -317,10 +324,13 @@ void ColorPrinter::ShowPrinterStatistics()
 }
 void ColorPrinter::PomegranateChooseToOpenFile(vector<Printer> &DataPrinter, vector<ColorPrinter> &DataColorPrinter, vector<LaserPrinter> &DataLaserPrinter)
 {
-	cout << "\nEnter your selection\n";
-	cout << "1. Common printer warehouse\n";
-	cout << "2. Laser printer warehouse\n";
-	cout << "3. Color printer warehouse\n";
+	cout << "********************************" << endl;
+	cout << "* 😃 Enter your selection            \n";
+	cout << "* 👉 1. Common printer warehouse\n";
+	cout << "* 👉 2. Laser printer warehouse\n";
+	cout << "* 👉 3. Color printer warehouse\n";
+	cout << "********************************" << endl;
+	cout << " 😎 Your choose the number : ";
 	int Select;
 	cin >> Select;
 	cin.ignore();
@@ -333,7 +343,7 @@ void ColorPrinter::PomegranateChooseToOpenFile(vector<Printer> &DataPrinter, vec
 		system("cls");
 		GetFileData("Common printer warehouse.txt", DataPrinter, DataColorPrinter, DataLaserPrinter);
 		inFile.close();
-	break;
+		break;
 	}
 	case 2:
 	{
@@ -342,7 +352,7 @@ void ColorPrinter::PomegranateChooseToOpenFile(vector<Printer> &DataPrinter, vec
 		system("cls");
 		GetFileData("Laser printer warehouse.txt", DataPrinter, DataColorPrinter, DataLaserPrinter);
 		inFile.close();
-	break;
+		break;
 	}
 
 	case 3:
@@ -352,7 +362,7 @@ void ColorPrinter::PomegranateChooseToOpenFile(vector<Printer> &DataPrinter, vec
 		system("cls");
 		GetFileData("Color printer warehouse.txt", DataPrinter, DataColorPrinter, DataLaserPrinter);
 		inFile.close();
-	break;
+		break;
 	}
 	default:
 		cout << "Invalid selection. Please choose again." << endl;

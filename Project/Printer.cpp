@@ -14,10 +14,12 @@ int main(int argc, char const *argv[])
 	ColorPrinter NewData;
 	for (;;)
 	{
-		cout << "\nEnter 1: Add new data" << endl;
-		cout << "Enter 2: Export data" << endl;
-		cout << "Enter 3: Show missing data " << endl;
-
+		cout << "\n***********************************" << endl;
+		cout << "* 👉 Enter 1: Add new data        *" << endl;
+		cout << "* 👉 Enter 2: Export data         *" << endl;
+		cout << "* 👉 Enter 3: Show missing data   *" << endl;
+		cout << "***********************************" << endl;
+		cout << " 😁 Your choice is : ";
 		int choice;
 		cin >> choice;
 		system("cls");
@@ -40,7 +42,7 @@ int main(int argc, char const *argv[])
 		}
 		case 4:
 		{
-			// NewData.
+			// so
 			break;
 		}
 		default:
@@ -54,6 +56,5 @@ int main(int argc, char const *argv[])
 	DataPrinter.clear();
 	DataLaserPrinter.clear();
 	DataColorPrinter.clear();
-	getchar();
 	return 0;
 }

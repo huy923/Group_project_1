@@ -3,10 +3,6 @@
 
 #include ".\Printer.h"
 #include ".\LaserPrinter.h"
-#include <iostream>
-#include <vector>
-#include <string>
-#include <istream>
 using namespace std;
 
 class ColorPrinter : public LaserPrinter
@@ -29,6 +25,7 @@ public:
 	void Options();
 	void ShowPrinterStatistics();
 	void Print() override;
+	void search();
 };
 void ColorPrinter::Print()
 {
@@ -78,12 +75,19 @@ void ColorPrinter::Split(string line)
 }
 void ColorPrinter::Output(vector<ColorPrinter> data) const
 {
-	cout << "+------------------------+---------+-------+-------------+--------+-------+-----+------------------+" << endl;
-	cout << "| Printer number         | Color   | Speed |  Intensity  | Memory | Stock | DPI | Number of colors |" << endl;
-	cout << "+------------------------+---------+-------+-------------+--------+-------+-----+------------------+" << endl;
+	openFileExportInvoice();
+	ofstream file("Export invoice.txt", ios::app);
+	file << "Color printer" << endl;
+	
+	string displayTime = getCurrentTime();
+	file << displayTime << endl;
+
+	file << "+------------------------+---------+-------+-------------+--------+-------+-----+------------------+" << endl;
+	file << "| Printer number         | Color   | Speed |  Intensity  | Memory | Stock | DPI | Number of colors |" << endl;
+	file << "+------------------------+---------+-------+-------------+--------+-------+-----+------------------+" << endl;
 	for (const auto &p : data)
 	{
-		cout << "| " << setw(23) << left << p.PrinterNumber
+		file << "| " << setw(23) << left << p.PrinterNumber
 			 << "| " << setw(8) << left << p.Color
 			 << "|  " << setw(5) << left << p.Speed
 			 << "|\t" << setw(9) << left << p.Intensity
@@ -92,7 +96,9 @@ void ColorPrinter::Output(vector<ColorPrinter> data) const
 			 << "| " << setw(3) << left << p.GetDPI()
 			 << " | " << setw(17) << left << p.GetNumberOfPrintableColors() << "|" << endl;
 	}
-	cout << "+------------------------+---------+-------+-------------+--------+-------+-----+------------------+" << endl;
+	file << "+------------------------+---------+-------+-------------+--------+-------+-----+------------------+" << endl;
+	file.close();
+	showExportInvoice();
 }
 void ColorPrinter::MoreData(string NameFile)
 {
@@ -121,15 +127,16 @@ void ColorPrinter::MoreData(string NameFile)
 void ColorPrinter::Options()
 {
 	cout << "**************************************************************" << endl;
-	cout << "* In which file do you want to add data?                     *" << endl;
-	cout << "* 👉 Enter 1 : Add data to the file Common printer warehouse  *" << endl;
-	cout << "* 👉 Enter 2 : Add data to the file Laser printer warehouse   *" << endl;
-	cout << "* 👉 Enter 3 : Add data to the file Color printer warehouse   *" << endl;
+	cout << "* 😉 In which file do you want to add data  (´･ω･`)?         *" << endl;
+	cout << "* 👉 Enter 1 : Add data to the file Common printer warehouse *" << endl;
+	cout << "* 👉 Enter 2 : Add data to the file Laser printer warehouse  *" << endl;
+	cout << "* 👉 Enter 3 : Add data to the file Color printer warehouse  *" << endl;
 	cout << "**************************************************************" << endl;
 	cout << " 😊 Your choose the number : ";
 	int choice;
 	cin >> choice;
 	cin.ignore();
+	system("cls");
 	switch (choice)
 	{
 	case 1:
@@ -324,12 +331,12 @@ void ColorPrinter::ShowPrinterStatistics()
 }
 void ColorPrinter::PomegranateChooseToOpenFile(vector<Printer> &DataPrinter, vector<ColorPrinter> &DataColorPrinter, vector<LaserPrinter> &DataLaserPrinter)
 {
-	cout << "********************************" << endl;
-	cout << "* 😃 Enter your selection            \n";
-	cout << "* 👉 1. Common printer warehouse\n";
-	cout << "* 👉 2. Laser printer warehouse\n";
-	cout << "* 👉 3. Color printer warehouse\n";
-	cout << "********************************" << endl;
+	cout << "*************************************" << endl;
+	cout << "* 😃 Enter your selection           *\n";
+	cout << "* 👉 1. Common printer warehouse    *\n";
+	cout << "* 👉 2. Laser printer warehouse     *\n";
+	cout << "* 👉 3. Color printer warehouse     *\n";
+	cout << "*************************************" << endl;
 	cout << " 😎 Your choose the number : ";
 	int Select;
 	cin >> Select;
@@ -421,5 +428,73 @@ void ColorPrinter::Input()
 	}
 	MyFile.close();
 	system("cls");
+}
+void showFileSearch()
+{
+	cout << "****************************************************" << endl;
+	cout << "* 🤗 What do you want to search for (´･ω･`)?  		*" << endl;
+	cout << "* 👉 Enter 1️⃣: Search printer number         		*" << endl;
+	cout << "* 👉 Enter 2️⃣: Search color                  		*" << endl;
+	cout << "* 👉 Enter 3️⃣: Search speed                  		*" << endl;
+	cout << "* 👉 Enter 4️⃣: Search intensity              		*" << endl;
+	cout << "* 👉 Enter 5️⃣: Search memory                 		*" << endl;
+	cout << "* 👉 Enter 6️⃣: Search number of printers in stock *" << endl;
+}
+void ColorPrinter::search()
+{
+
+	cout << "********************************************************" << endl;
+	cout << "* What do you want open file to search ❓   	 	   *" << endl;
+	cout << "* Enter 1️⃣ : Common printer warehouse     		     *" << endl;
+	cout << "* Enter 2️⃣ : Laser printer warehouse          		 *" << endl;
+	cout << "* Enter 3️⃣ : Color printer warehouse                   *" << endl;
+	cout << "********************************************************" << endl;
+	cout << " 😝 You choose the number : ";
+	int choice;
+	cin >> choice;
+	cin.ignore();
+	switch (choice)
+	{
+	case 1:
+	{
+		showFileSearch();
+		cout << "********************************************************" << endl;
+		cout << "😊 Your choice the number : ";
+		int choice;
+		cin >> choice;
+		cin.ignore();
+		system("cls");
+		switch (choice)
+		{
+		case 1:
+
+			break;
+
+		default:
+			break;
+		}
+
+		break;
+	}
+	case 2:
+	{
+		showFileSearch();
+		cout << "* 👉 Enter 7️⃣: Search number of print points per unit *" << endl;
+		cout << "********************************************************" << endl;
+		cout << "😊 Your choice the number : ";
+		int choice;
+		cin >> choice;
+		cin.ignore();
+		system("cls");
+		break;
+	}
+	case 3:
+	{
+
+		break;
+	}
+	default:
+		break;
+	}
 }
 #endif

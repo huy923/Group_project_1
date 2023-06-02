@@ -42,7 +42,7 @@ int main(int argc, char const *argv[])
 		}
 		case 4:
 		{
-			// so
+			NewData.search();
 			break;
 		}
 		default:

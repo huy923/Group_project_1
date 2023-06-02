@@ -109,13 +109,20 @@ void LaserPrinter::Input()
 
 void LaserPrinter::Output(vector<LaserPrinter> data)
 {
-	cout << "+------------------------+---------+-------+-------------+--------+-------+-----+" << endl;
-	cout << "| Printer number         | Color   | Speed |  Intensity  | Memory | Stock | DPI |" << endl;
-	cout << "+------------------------+---------+-------+-------------+--------+-------+-----+" << endl;
+	openFileExportInvoice();
+	ofstream file("Export invoice.txt", ios::app);
+	file << "Laser Printer" << endl;
+
+	string displayTime = getCurrentTime();
+	file << displayTime << endl;
+	
+	file << "+------------------------+---------+-------+-------------+--------+-------+-----+" << endl;
+	file << "| Printer number         | Color   | Speed |  Intensity  | Memory | Stock | DPI |" << endl;
+	file << "+------------------------+---------+-------+-------------+--------+-------+-----+" << endl;
 
 	for (const auto &p : data)
 	{
-		cout << "| " << setw(23) << left << p.PrinterNumber
+		file << "| " << setw(23) << left << p.PrinterNumber
 				  << "| " << setw(8) << left << p.Color
 				  << "|  " << setw(5) << left << p.Speed
 				  << "|\t" << setw(9) << left << p.Intensity
@@ -123,7 +130,8 @@ void LaserPrinter::Output(vector<LaserPrinter> data)
 				  << "| " << setw(6) << left << p.NumberOfPrintersInStock
 				  << "| " << setw(4) << p.GetDPI() << "|" << endl;
 	}
-
-	cout << "+------------------------+---------+-------+-------------+--------+-------+-----+" << endl;
+	file << "+------------------------+---------+-------+-------------+--------+-------+-----+" << endl;
+	file.close();
+	showExportInvoice();
 }
 #endif

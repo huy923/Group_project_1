@@ -1,11 +1,7 @@
 #ifndef LASERPRINTER_H
 #define LASERPRINTER_H
 #include ".\Printer.h"
-#include <string>
-#include <vector>
-#include <sstream>
-#include <limits>
-using namespace std;
+
 class LaserPrinter : public Printer
 {
 private:
@@ -115,7 +111,7 @@ void LaserPrinter::Output(vector<LaserPrinter> data)
 
 	string displayTime = getCurrentTime();
 	file << displayTime << endl;
-	
+
 	file << "+------------------------+---------+-------+-------------+--------+-------+-----+" << endl;
 	file << "| Printer number         | Color   | Speed |  Intensity  | Memory | Stock | DPI |" << endl;
 	file << "+------------------------+---------+-------+-------------+--------+-------+-----+" << endl;
@@ -123,12 +119,12 @@ void LaserPrinter::Output(vector<LaserPrinter> data)
 	for (const auto &p : data)
 	{
 		file << "| " << setw(23) << left << p.PrinterNumber
-				  << "| " << setw(8) << left << p.Color
-				  << "|  " << setw(5) << left << p.Speed
-				  << "|\t" << setw(9) << left << p.Intensity
-				  << "| " << setw(7) << left << p.Memory
-				  << "| " << setw(6) << left << p.NumberOfPrintersInStock
-				  << "| " << setw(4) << p.GetDPI() << "|" << endl;
+			 << "| " << setw(8) << left << p.Color
+			 << "|  " << setw(5) << left << p.Speed
+			 << "|\t" << setw(9) << left << p.Intensity
+			 << "| " << setw(7) << left << p.Memory
+			 << "| " << setw(6) << left << p.NumberOfPrintersInStock
+			 << "| " << setw(4) << p.GetDPI() << "|" << endl;
 	}
 	file << "+------------------------+---------+-------+-------------+--------+-------+-----+" << endl;
 	file.close();

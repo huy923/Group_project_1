@@ -3,7 +3,7 @@
 
 #include ".\Printer.h"
 #include ".\LaserPrinter.h"
-using namespace std;
+
 
 class ColorPrinter : public LaserPrinter
 {
@@ -238,6 +238,7 @@ void ColorPrinter::ShowPrinterStatistics()
 	int choice;
 	cin >> choice;
 	cin.ignore();
+	ofstream FileExportInvoice("Export invoice.txt",ios::app);
 	switch (choice)
 	{
 	case 1:
@@ -258,7 +259,8 @@ void ColorPrinter::ShowPrinterStatistics()
 		if (success)
 		{
 			system("cls");
-			cout << "\t\t\t------------------- Missing Printer ------------------ \n";
+			FileExportInvoice << "\t\t\t------------------- Missing Printer ------------------ \n";
+			
 			Printer::Output(data1);
 		}
 		else
@@ -286,7 +288,7 @@ void ColorPrinter::ShowPrinterStatistics()
 		if (success)
 		{
 			system("cls");
-			cout << "\t\t\t------------------- Missing Printer ------------------ \n";
+			FileExportInvoice << "\t\t\t------------------- Missing Printer ------------------ \n";
 			LaserPrinter::Output(data2);
 		}
 		else
@@ -314,7 +316,7 @@ void ColorPrinter::ShowPrinterStatistics()
 		if (success)
 		{
 			system("cls");
-			cout << "\t\t\t------------------- Missing Printer ------------------ \n";
+			FileExportInvoice << "\t\t\t------------------- Missing Printer ------------------ \n";
 			ColorPrinter::Output(data3);
 		}
 		else
@@ -328,6 +330,7 @@ void ColorPrinter::ShowPrinterStatistics()
 		cout << "ERROR: Unknown" << endl;
 		break;
 	}
+	FileExportInvoice.close();
 }
 void ColorPrinter::PomegranateChooseToOpenFile(vector<Printer> &DataPrinter, vector<ColorPrinter> &DataColorPrinter, vector<LaserPrinter> &DataLaserPrinter)
 {

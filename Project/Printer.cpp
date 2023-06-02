@@ -1,10 +1,7 @@
-#include <iostream>
-#include <vector>
-#include <fstream>
-#include <iomanip>
 #include ".\Printer.h"
 #include ".\LaserPrinter.h"
 #include ".\ColorPrinter.h"
+#include <iostream>
 using namespace std;
 int main(int argc, char const *argv[])
 {

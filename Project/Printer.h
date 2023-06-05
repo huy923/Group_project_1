@@ -10,6 +10,7 @@
 #include <iomanip>
 #include <ctime>
 using namespace std;
+
 class Printer
 {
 protected:
@@ -28,10 +29,10 @@ public:
 	void Input();
 	void Output(vector<Printer>) const;
 	void GeneralImport();
-	virtual void Print();
 	string getCurrentTime() const;
 	void openFileExportInvoice() const;
 	void showExportInvoice() const;
+	virtual void Print();
 };
 void Printer::Print()
 {

@@ -1,22 +1,22 @@
 #include ".\Printer.h"
 #include ".\LaserPrinter.h"
 #include ".\ColorPrinter.h"
-#include <iostream>
-using namespace std;
 int main(int argc, char const *argv[])
 {
 	vector<Printer> DataPrinter;
 	vector<ColorPrinter> DataColorPrinter;
 	vector<LaserPrinter> DataLaserPrinter;
 	ColorPrinter NewData;
-	for (;;)
+	
+	for (;;)	
 	{
 		cout << "\n***********************************" << endl;
-		cout << "* 👉 Enter 1: Add new data        *" << endl;
-		cout << "* 👉 Enter 2: Export data         *" << endl;
-		cout << "* 👉 Enter 3: Show missing data   *" << endl;
+		cout << "* Enter 1: Add new data\t          *" << endl;
+		cout << "* Enter 2: Export data     \t  *" << endl;
+		cout << "* Enter 3: Show missing data\t  *" << endl;
+		cout << "* Enter 4: Search\t\t  *"<<endl;
 		cout << "***********************************" << endl;
-		cout << " 😁 Your choice is : ";
+		cout << "  Your choice is : ";
 		int choice;
 		cin >> choice;
 		system("cls");

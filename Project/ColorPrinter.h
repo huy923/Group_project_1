@@ -4,7 +4,6 @@
 #include ".\Printer.h"
 #include ".\LaserPrinter.h"
 
-
 class ColorPrinter : public LaserPrinter
 {
 private:
@@ -78,7 +77,7 @@ void ColorPrinter::Output(vector<ColorPrinter> data) const
 	openFileExportInvoice();
 	ofstream file("Export invoice.txt", ios::app);
 	file << "Color printer" << endl;
-	
+
 	string displayTime = getCurrentTime();
 	file << displayTime << endl;
 
@@ -95,8 +94,8 @@ void ColorPrinter::Output(vector<ColorPrinter> data) const
 			 << "| " << setw(6) << left << p.NumberOfPrintersInStock
 			 << "| " << setw(3) << left << p.GetDPI()
 			 << " | " << setw(17) << left << p.GetNumberOfPrintableColors() << "|" << endl;
+		file << "+------------------------+---------+-------+-------------+--------+-------+-----+------------------+" << endl;
 	}
-	file << "+------------------------+---------+-------+-------------+--------+-------+-----+------------------+" << endl;
 	file.close();
 	showExportInvoice();
 }
@@ -127,12 +126,12 @@ void ColorPrinter::MoreData(string NameFile)
 void ColorPrinter::Options()
 {
 	cout << "**************************************************************" << endl;
-	cout << "* 😉 In which file do you want to add data  (´･ω･`)?         *" << endl;
-	cout << "* 👉 Enter 1 : Add data to the file Common printer warehouse *" << endl;
-	cout << "* 👉 Enter 2 : Add data to the file Laser printer warehouse  *" << endl;
-	cout << "* 👉 Enter 3 : Add data to the file Color printer warehouse  *" << endl;
+	cout << "* In which file do you want to add data ?\t\t     *" << endl;
+	cout << "* Enter 1 : Add data to the file Common printer warehouse    *" << endl;
+	cout << "* Enter 2 : Add data to the file Laser printer warehouse     *" << endl;
+	cout << "* Enter 3 : Add data to the file Color printer warehouse     *" << endl;
 	cout << "**************************************************************" << endl;
-	cout << " 😊 Your choose the number : ";
+	cout << " Your choose the number : ";
 	int choice;
 	cin >> choice;
 	cin.ignore();
@@ -228,17 +227,17 @@ void ColorPrinter::ShowPrinterStatistics()
 	vector<Printer> data1;
 	vector<LaserPrinter> data2;
 	vector<ColorPrinter> data3;
-	cout << "*******************************************************" << endl;
-	cout << "* 🤗 What printer stats do you want to see (´･ω･`)?   *" << endl;
-	cout << "* 👉 Enter 1: Printer                                 *" << endl;
-	cout << "* 👉 Enter 2: Laser printer                           *" << endl;
-	cout << "* 👉 Enter 3: Color printer                           *" << endl;
-	cout << "*******************************************************" << endl;
-	cout << " 😎 Your choose the number : ";
+	cout << "****************************************************" << endl;
+	cout << "* What printer stats do you want to see ?          *" << endl;
+	cout << "* Enter 1: Printer                                 *" << endl;
+	cout << "* Enter 2: Laser printer                           *" << endl;
+	cout << "* Enter 3: Color printer                           *" << endl;
+	cout << "****************************************************" << endl;
+	cout << " Your choose the number : ";
 	int choice;
 	cin >> choice;
 	cin.ignore();
-	ofstream FileExportInvoice("Export invoice.txt",ios::app);
+	ofstream FileExportInvoice("Export invoice.txt", ios::app);
 	switch (choice)
 	{
 	case 1:
@@ -258,9 +257,8 @@ void ColorPrinter::ShowPrinterStatistics()
 		}
 		if (success)
 		{
-			system("cls");
 			FileExportInvoice << "\t\t\t------------------- Missing Printer ------------------ \n";
-			
+			system("cls");
 			Printer::Output(data1);
 		}
 		else
@@ -289,6 +287,7 @@ void ColorPrinter::ShowPrinterStatistics()
 		{
 			system("cls");
 			FileExportInvoice << "\t\t\t------------------- Missing Printer ------------------ \n";
+			FileExportInvoice.close();
 			LaserPrinter::Output(data2);
 		}
 		else
@@ -317,6 +316,7 @@ void ColorPrinter::ShowPrinterStatistics()
 		{
 			system("cls");
 			FileExportInvoice << "\t\t\t------------------- Missing Printer ------------------ \n";
+			FileExportInvoice.close();
 			ColorPrinter::Output(data3);
 		}
 		else
@@ -335,12 +335,12 @@ void ColorPrinter::ShowPrinterStatistics()
 void ColorPrinter::PomegranateChooseToOpenFile(vector<Printer> &DataPrinter, vector<ColorPrinter> &DataColorPrinter, vector<LaserPrinter> &DataLaserPrinter)
 {
 	cout << "*************************************" << endl;
-	cout << "* 😃 Enter your selection           *\n";
-	cout << "* 👉 1. Common printer warehouse    *\n";
-	cout << "* 👉 2. Laser printer warehouse     *\n";
-	cout << "* 👉 3. Color printer warehouse     *\n";
+	cout << "* Enter your selection              *\n";
+	cout << "* 1. Common printer warehouse       *\n";
+	cout << "* 2. Laser printer warehouse        *\n";
+	cout << "* 3. Color printer warehouse        *\n";
 	cout << "*************************************" << endl;
-	cout << " 😎 Your choose the number : ";
+	cout << " Your choose the number : ";
 	int Select;
 	cin >> Select;
 	cin.ignore();
@@ -411,93 +411,738 @@ void ColorPrinter::Input()
 	{
 		cout << "Error opening file " << endl;
 	}
-	cout << "Added data do you want to see (y,n) :";
-	string choice;
-	cin >> choice;
-	cin.ignore();
-	system("cls");
-	if (choice == "y" or choice == "Y")
-	{
-		vector<ColorPrinter> data;
-		ifstream file("Color printer warehouse.txt");
-		string line;
-		while (getline(file, line))
-		{
-			ColorPrinter printer;
-			printer.ColorPrinter::Split(line);
-			data.push_back(printer);
-		}
-		ColorPrinter::Output(data);
-	}
 	MyFile.close();
+
+	vector<ColorPrinter> data;
+	ifstream file("Color printer warehouse.txt");
+	string line;
+	while (getline(file, line))
+	{
+		ColorPrinter printer;
+		printer.ColorPrinter::Split(line);
+		data.push_back(printer);
+	}
+	ColorPrinter::Output(data);
+	file.close();
 	system("cls");
 }
 void showFileSearch()
 {
-	cout << "****************************************************" << endl;
-	cout << "* 🤗 What do you want to search for (´･ω･`)?  		*" << endl;
-	cout << "* 👉 Enter 1️⃣: Search printer number         		*" << endl;
-	cout << "* 👉 Enter 2️⃣: Search color                  		*" << endl;
-	cout << "* 👉 Enter 3️⃣: Search speed                  		*" << endl;
-	cout << "* 👉 Enter 4️⃣: Search intensity              		*" << endl;
-	cout << "* 👉 Enter 5️⃣: Search memory                 		*" << endl;
-	cout << "* 👉 Enter 6️⃣: Search number of printers in stock *" << endl;
+	cout << "********************************************************" << endl;
+	cout << "* What do you want to search for ?                     *" << endl;
+	cout << "* Enter 1 : Search printer number                      *" << endl;
+	cout << "* Enter 2 : Search color                               *" << endl;
+	cout << "* Enter 3 : Search speed                               *" << endl;
+	cout << "* Enter 4 : Search intensity                           *" << endl;
+	cout << "* Enter 5 : Search memory                              *" << endl;
+	cout << "* Enter 6 : Search number of printers in stock         *" << endl;
 }
 void ColorPrinter::search()
 {
+	ofstream fileOutput("Export invoice.txt", ios::app);
+
+	ifstream filePrinter("Common printer warehouse.txt");
+	vector<Printer> dataPrinter;
+	string linePrinter;
+	while (getline(filePrinter, linePrinter))
+	{
+		Printer printer;
+		printer.Split(linePrinter);
+		dataPrinter.push_back(printer);
+	}
+	filePrinter.close();
+
+	vector<ColorPrinter> dataColorPrinter;
+	ifstream fileColorPrinter("Color printer warehouse.txt");
+	string lineColorPrinter;
+	while (getline(fileColorPrinter, lineColorPrinter))
+	{
+		ColorPrinter printer;
+		printer.ColorPrinter::Split(lineColorPrinter);
+		dataColorPrinter.push_back(printer);
+	}
+	fileColorPrinter.close();
+	// read file Laser printer warehouse.txt and push it to dataLaserPrinter
+	vector<LaserPrinter> dataLaserPrinter;
+	ifstream fileLaserPrinter("Laser printer warehouse.txt");
+	string lineLaserPrinter;
+	while (getline(fileLaserPrinter, lineLaserPrinter))
+	{
+		LaserPrinter printer;
+		printer.LaserPrinter::Split(lineLaserPrinter);
+		dataLaserPrinter.push_back(printer);
+	}
+	fileLaserPrinter.close();
 
 	cout << "********************************************************" << endl;
-	cout << "* What do you want open file to search ❓   	 	   *" << endl;
-	cout << "* Enter 1️⃣ : Common printer warehouse     		     *" << endl;
-	cout << "* Enter 2️⃣ : Laser printer warehouse          		 *" << endl;
-	cout << "* Enter 3️⃣ : Color printer warehouse                   *" << endl;
+	cout << "* What file do you want to open for searching?         *" << endl;
+	cout << "* Enter 1: Common printer warehouse                    *" << endl;
+	cout << "* Enter 2: Laser printer warehouse                     *" << endl;
+	cout << "* Enter 3: Color printer warehouse                     *" << endl;
 	cout << "********************************************************" << endl;
-	cout << " 😝 You choose the number : ";
-	int choice;
-	cin >> choice;
+	cout << "Your choice: ";
+	int fileChoice;
+	cin >> fileChoice;
 	cin.ignore();
-	switch (choice)
+	system("cls");
+
+	switch (fileChoice)
 	{
 	case 1:
 	{
 		showFileSearch();
 		cout << "********************************************************" << endl;
-		cout << "😊 Your choice the number : ";
-		int choice;
-		cin >> choice;
+		cout << "Your choice: ";
+		int searchChoice1;
+		cin >> searchChoice1;
 		cin.ignore();
 		system("cls");
-		switch (choice)
+		switch (searchChoice1)
 		{
 		case 1:
+		{
+			cout << "Enter the number of printers to search for: ";
+			int numOfPrinters;
+			cin >> numOfPrinters;
+			cin.ignore();
+			vector<Printer> temp;
+			bool check = false;
+			for (const auto &printer : dataPrinter)
+			{
+				if (printer.GetNumberPrinter() == numOfPrinters)
+				{
+					check = true;
+					temp.push_back(printer);
+				}
+			}
 
-			break;
+			if (check)
+			{
+				Printer::Output(temp);
+			}
+			else
+			{
+				fileOutput << "\tNo results found	" << endl;
+			}
+			temp.clear();
+		}
+		break;
 
-		default:
-			break;
+		case 2:
+		{
+			cout << "Enter the color to search for: ";
+			string color;
+			cin >> color;
+			cin.ignore();
+			vector<Printer> temp;
+			bool check = false;
+			for (const auto &printer : dataPrinter)
+			{
+				if (printer.GetColor() == color)
+				{
+					check = true;
+					temp.push_back(printer);
+				}
+			}
+
+			if (check)
+			{
+				Printer::Output(temp);
+			}
+			else
+			{
+				fileOutput << "\tNo results found	" << endl;
+			}
+			temp.clear();
+		}
+		break;
+
+		case 3:
+		{
+			cout << "Enter the speed to search for: ";
+			double speed;
+			cin >> speed;
+			cin.ignore();
+			vector<Printer> temp;
+			bool check = false;
+			for (const auto &printer : dataPrinter)
+			{
+				if (printer.GetSpeed() == speed)
+				{
+					check = true;
+					temp.push_back(printer);
+				}
+			}
+
+			if (check)
+			{
+				Printer::Output(temp);
+			}
+			else
+			{
+				fileOutput << "\tNo results found	" << endl;
+			}
+			temp.clear();
+		}
+		break;
+
+		case 4:
+		{
+			cout << "Enter the intensity to search for: ";
+			double intensity;
+			cin >> intensity;
+			cin.ignore();
+			vector<Printer> temp;
+			bool check = false;
+			for (const auto &printer : dataPrinter)
+			{
+				if (printer.GetIntensity() == intensity)
+				{
+					check = true;
+					temp.push_back(printer);
+				}
+			}
+
+			if (check)
+			{
+				Printer::Output(temp);
+			}
+			else
+			{
+				fileOutput << "\tNo results found	" << endl;
+			}
+			temp.clear();
+		}
+		break;
+
+		case 5:
+		{
+			cout << "Enter the memory to search for: ";
+			double memory;
+			cin >> memory;
+			cin.ignore();
+			vector<Printer> temp;
+			bool check = false;
+			for (const auto &printer : dataPrinter)
+			{
+				if (printer.GetMemory() == memory)
+				{
+					check = true;
+					temp.push_back(printer);
+				}
+			}
+
+			if (check)
+			{
+				Printer::Output(temp);
+			}
+			else
+			{
+				fileOutput << "\tNo results found	" << endl;
+			}
+			temp.clear();
+		}
+		break;
+
+		case 6:
+		{
+			cout << "Enter the number of printers in stock to search for: ";
+			int numOfPrinters;
+			cin >> numOfPrinters;
+			cin.ignore();
+			vector<Printer> temp;
+			bool check = false;
+			for (int i = 0; i < dataPrinter.size(); i++)
+			{
+				if (dataPrinter[i].GetNumberOfPrintersInStock() == numOfPrinters)
+				{
+					check = true;
+					temp.push_back(dataPrinter[i]);
+				}
+			}
+			if (check)
+			{
+				Printer::Output(temp);
+			}
+			else
+			{
+				fileOutput << "\tNo results found	" << endl;
+			}
+			temp.clear();
 		}
 
+		break;
+		default:
+			cout << "Invalid selection. Please choose again." << endl;
+			break;
+		}
 		break;
 	}
 	case 2:
 	{
 		showFileSearch();
-		cout << "* 👉 Enter 7️⃣: Search number of print points per unit *" << endl;
+		cout << "* Enter 7 : Search number of print points per unit(DPI)*" << endl;
 		cout << "********************************************************" << endl;
-		cout << "😊 Your choice the number : ";
-		int choice;
-		cin >> choice;
+		cout << "Your choice: ";
+		int searchChoice2;
+		cin >> searchChoice2;
 		cin.ignore();
 		system("cls");
+		switch (searchChoice2)
+		{
+		case 1:
+		{
+			cout << "Enter the number of printers to search for: ";
+			int numOfPrinters;
+			cin >> numOfPrinters;
+			cin.ignore();
+			vector<LaserPrinter> temp;
+			bool check = false;
+			for (const auto &printer : dataLaserPrinter)
+			{
+				if (printer.GetNumberPrinter() == numOfPrinters)
+				{
+					check = true;
+					temp.push_back(printer);
+				}
+			}
+
+			if (check)
+			{
+				LaserPrinter::Output(temp);
+			}
+			else
+			{
+				fileOutput << "\tNo results found	" << endl;
+			}
+			temp.clear();
+		}
+		break;
+
+		case 2:
+		{
+			cout << "Enter the color to search for: ";
+			string color;
+			cin >> color;
+			cin.ignore();
+			vector<LaserPrinter> temp;
+			bool check = false;
+			for (const auto &printer : dataLaserPrinter)
+			{
+				if (printer.GetColor() == color)
+				{
+					check = true;
+					temp.push_back(printer);
+				}
+			}
+
+			if (check)
+			{
+				LaserPrinter::Output(temp);
+			}
+			else
+			{
+				fileOutput << "\tNo results found	" << endl;
+			}
+			temp.clear();
+		}
+		break;
+
+		case 3:
+		{
+			cout << "Enter the speed to search for: ";
+			double speed;
+			cin >> speed;
+			cin.ignore();
+			vector<LaserPrinter> temp;
+			bool check = false;
+			for (const auto &printer : dataLaserPrinter)
+			{
+				if (printer.GetSpeed() == speed)
+				{
+					check = true;
+					temp.push_back(printer);
+				}
+			}
+
+			if (check)
+			{
+				LaserPrinter::Output(temp);
+			}
+			else
+			{
+				fileOutput << "\tNo results found	" << endl;
+			}
+			temp.clear();
+		}
+		break;
+
+		case 4:
+		{
+			cout << "Enter the intensity to search for: ";
+			double intensity;
+			cin >> intensity;
+			cin.ignore();
+			vector<LaserPrinter> temp;
+			bool check = false;
+			for (const auto &printer : dataLaserPrinter)
+			{
+				if (printer.GetIntensity() == intensity)
+				{
+					check = true;
+					temp.push_back(printer);
+				}
+			}
+
+			if (check)
+			{
+				LaserPrinter::Output(temp);
+			}
+			else
+			{
+				fileOutput << "\tNo results found	" << endl;
+			}
+			temp.clear();
+		}
+		break;
+
+		case 5:
+		{
+			cout << "Enter the memory to search for: ";
+			double memory;
+			cin >> memory;
+			cin.ignore();
+			vector<LaserPrinter> temp;
+			bool check = false;
+			for (const auto &printer : dataLaserPrinter)
+			{
+				if (printer.GetMemory() == memory)
+				{
+					check = true;
+					temp.push_back(printer);
+				}
+			}
+
+			if (check)
+			{
+				LaserPrinter::Output(temp);
+			}
+			else
+			{
+				fileOutput << "\tNo results found	" << endl;
+			}
+			temp.clear();
+		}
+		break;
+
+		case 6:
+		{
+			cout << "Enter the number of printers in stock to search for: ";
+			int numOfPrinters;
+			cin >> numOfPrinters;
+			cin.ignore();
+			vector<LaserPrinter> temp;
+			bool check = false;
+			for (const auto &printer : dataLaserPrinter)
+			{
+				if (printer.GetNumberOfPrintersInStock() == numOfPrinters)
+				{
+					check = true;
+					temp.push_back(printer);
+				}
+			}
+			if (check)
+			{
+				LaserPrinter::Output(temp);
+			}
+			else
+			{
+				fileOutput << "\tNo results found	" << endl;
+			}
+			temp.clear();
+		}
+		case 7:
+		{
+			cout << "Enter the number of print points per unit of printer : ";
+			double numberDPI;
+			cin >> numberDPI;
+			cin.ignore();
+			vector<LaserPrinter> temp;
+			bool check = false;
+			for (const auto &printer : dataLaserPrinter)
+			{
+				if (printer.GetDPI() == numberDPI)
+				{
+					check = true;
+					temp.push_back(printer);
+				}
+			}
+			if (check)
+			{
+				LaserPrinter::Output(temp);
+			}
+			else
+			{
+				fileOutput << "\tNo results found " << endl;
+			}
+			temp.clear();
+		}
+		break;
+		default:
+			cout << "Invalid selection. Please choose again." << endl;
+			break;
+		}
 		break;
 	}
 	case 3:
 	{
+		showFileSearch();
+		cout << "* Enter 7 : Search number of print points per unit     *" << endl;
+		cout << "* Enter 8 : Search number of printable colors          *" << endl;
+		cout << "********************************************************" << endl;
+		cout << "Your choice: ";
+		int searchChoice3;
+		cin >> searchChoice3;
+		cin.ignore();
+		system("cls");
+		switch (searchChoice3)
+		{
+		case 1:
+		{
+			cout << "Enter the number of printers to search for: ";
+			int numOfPrinters;
+			cin >> numOfPrinters;
+			cin.ignore();
+			vector<ColorPrinter> temp;
+			bool check = false;
+			for (const auto &printer : dataColorPrinter)
+			{
+				if (printer.GetNumberPrinter() == numOfPrinters)
+				{
+					check = true;
+					temp.push_back(printer);
+				}
+			}
 
+			if (check)
+			{
+				ColorPrinter::Output(temp);
+			}
+			else
+			{
+				fileOutput << "\tNo results found	" << endl;
+			}
+			temp.clear();
+		}
 		break;
+
+		case 2:
+		{
+			cout << "Enter the color to search for: ";
+			string color;
+			cin >> color;
+			cin.ignore();
+			vector<ColorPrinter> temp;
+			bool check = false;
+			for (const auto &printer : dataColorPrinter)
+			{
+				if (printer.GetColor() == color)
+				{
+					check = true;
+					temp.push_back(printer);
+				}
+			}
+
+			if (check)
+			{
+				ColorPrinter::Output(temp);
+			}
+			else
+			{
+				fileOutput << "\tNo results found	" << endl;
+			}
+			temp.clear();
+		}
+		break;
+
+		case 3:
+		{
+			cout << "Enter the speed to search for: ";
+			double speed;
+			cin >> speed;
+			cin.ignore();
+			vector<ColorPrinter> temp;
+			bool check = false;
+			for (const auto &printer : dataColorPrinter)
+			{
+				if (printer.GetSpeed() == speed)
+				{
+					check = true;
+					temp.push_back(printer);
+				}
+			}
+
+			if (check)
+			{
+				ColorPrinter::Output(temp);
+			}
+			else
+			{
+				fileOutput << "\tNo results found	" << endl;
+			}
+			temp.clear();
+		}
+		break;
+
+		case 4:
+		{
+			cout << "Enter the intensity to search for: ";
+			double intensity;
+			cin >> intensity;
+			cin.ignore();
+			vector<ColorPrinter> temp;
+			bool check = false;
+			for (const auto &printer : dataColorPrinter)
+			{
+				if (printer.GetIntensity() == intensity)
+				{
+					check = true;
+					temp.push_back(printer);
+				}
+			}
+
+			if (check)
+			{
+				ColorPrinter::Output(temp);
+			}
+			else
+			{
+				fileOutput << "\tNo results found	" << endl;
+			}
+			temp.clear();
+		}
+		break;
+
+		case 5:
+		{
+			cout << "Enter the memory to search for: ";
+			double memory;
+			cin >> memory;
+			cin.ignore();
+			vector<ColorPrinter> temp;
+			bool check = false;
+			for (const auto &printer : dataColorPrinter)
+			{
+				if (printer.GetMemory() == memory)
+				{
+					check = true;
+					temp.push_back(printer);
+				}
+			}
+
+			if (check)
+			{
+				ColorPrinter::Output(temp);
+			}
+			else
+			{
+				fileOutput << "\tNo results found	" << endl;
+			}
+			temp.clear();
+		}
+		break;
+
+		case 6:
+		{
+			cout << "Enter the number of printers in stock to search for: ";
+			int numOfPrinters;
+			cin >> numOfPrinters;
+			cin.ignore();
+			vector<ColorPrinter> temp;
+			bool check = false;
+			for (const auto &printer : dataColorPrinter)
+			{
+				if (printer.GetNumberOfPrintersInStock() == numOfPrinters)
+				{
+					check = true;
+					temp.push_back(printer);
+				}
+			}
+			if (check)
+			{
+				ColorPrinter::Output(temp);
+			}
+			else
+			{
+				fileOutput << "\tNo results found	" << endl;
+			}
+			temp.clear();
+		}
+		case 7:
+		{
+			cout << "Enter the number of print points per unit of printer : ";
+			double numberDPI;
+			cin >> numberDPI;
+			cin.ignore();
+			vector<ColorPrinter> temp;
+			bool check = false;
+			for (const auto &printer : dataColorPrinter)
+			{
+				if (printer.GetDPI() == numberDPI)
+				{
+					check = true;
+					temp.push_back(printer);
+				}
+			}
+			if (check)
+			{
+				ColorPrinter::Output(temp);
+			}
+			else
+			{
+				fileOutput << "\tNo results found " << endl;
+			}
+			temp.clear();
+		}
+		break;
+		case 8:
+		{
+			cout << "Enter the number of printable colors" << endl;
+			bool check = false;
+			int Number;
+			cin >> Number;
+			cin.ignore();
+			vector<ColorPrinter> temp;
+			for (const auto &printer : dataColorPrinter)
+			{
+				if (printer.GetDPI() == Number)
+				{
+					check = true;
+					temp.push_back(printer);
+				}
+			}
+			if (check)
+			{
+				ColorPrinter::Output(temp);
+			}
+			else
+			{
+				fileOutput << "No results found " << endl;
+			}
+			temp.clear();
+		}
+		break;
+		default:
+			cout << "Invalid selection. Please choose again." << endl;
+			break;
+		}
 	}
 	default:
+		cout << "Invalid file selection. Please choose again." << endl;
 		break;
 	}
+	dataPrinter.clear();
+	dataLaserPrinter.clear();
+	dataColorPrinter.clear();
 }
 #endif

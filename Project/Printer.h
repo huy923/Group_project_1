@@ -14,35 +14,60 @@ using namespace std;
 class Printer
 {
 protected:
-	int PrinterNumber;
-	string Color;
-	double Speed;
-	double Intensity;
-	double Memory;
-	int NumberOfPrintersInStock;
+	int PrinterNumber; // Printer number
+	string Color; // Color of the printer
+	double Speed; // Printing speed (pages per minute)
+	double Intensity; // Intensity of the printer
+	double Memory; // Memory capacity (in MB)
+	int NumberOfPrintersInStock; // Number of printers in stock
 
 public:
-	Printer();
-	Printer(int, string, double, double, double, int);
-	int GetNumberOfPrintersInStock();
-	void Split(string);
-	void Input();
-	void Output(vector<Printer>) const;
-	void GeneralImport();
-	string getCurrentTime() const;
-	void openFileExportInvoice() const;
-	void showExportInvoice() const;
-	virtual void Print();
+	Printer(); // Default constructor
+	Printer(int, string, double, double, double, int); // Constructor with parameters
+	int GetNumberOfPrintersInStock()const; // Get the number of printers in stock
+	void Split(string); // Split a line of text into individual attributes
+	void Input(); // Input printer information from user
+	void Output(vector<Printer>) const; // Output printer information to file and console
+	void GeneralImport(); // General input function for printer attributes
+	string getCurrentTime() const; // Get the current system time as a string
+	void openFileExportInvoice() const; // Open the export invoice file
+	void showExportInvoice() const; // Display the export invoice file
+	double GetMemory() const; // Get the memory capacity
+	double GetIntensity()const; // Get the intensity
+	double GetSpeed()const; // Get the speed
+	string GetColor()const; // Get the color
+	int GetNumberPrinter()const; // Get the printer number
+	virtual void Print(); // Print function (virtual)
+
 };
+
+// Print function implementation
 void Printer::Print()
 {
 	cout << "Normal printer" << endl;
 }
-int Printer::GetNumberOfPrintersInStock()
+double Printer::GetMemory()const{
+	return Memory;
+}
+double Printer::GetIntensity() const{
+	return Intensity;
+}
+double Printer::GetSpeed()const{
+	return Speed;
+}
+string Printer::GetColor()const{
+	return Color;
+}
+int Printer::GetNumberPrinter()const{
+	return PrinterNumber;
+}
+// Get the number of printers in stock
+int Printer::GetNumberOfPrintersInStock()const
 {
 	return NumberOfPrintersInStock;
 }
 
+// Default constructor
 Printer::Printer()
 {
 	PrinterNumber = 0;
@@ -52,8 +77,12 @@ Printer::Printer()
 	Memory = 0.0;
 	NumberOfPrintersInStock = 0;
 }
+
+// Constructor with parameters
 Printer::Printer(int num, string color, double speed, double intensity, double memory, int stock)
 	: PrinterNumber(num), Color(color), Speed(speed), Intensity(intensity), Memory(memory), NumberOfPrintersInStock(stock) {}
+
+// Split a line of text into individual attributes
 void Printer::Split(string line)
 {
 	stringstream ss(line);
@@ -71,42 +100,34 @@ void Printer::Split(string line)
 	NumberOfPrintersInStock = stoi(field);
 }
 
+// Input printer information from user
 void Printer::Input()
 {
 	GeneralImport();
 	ofstream MyFile("Common printer warehouse.txt", ios::app);
 	MyFile << PrinterNumber << ";" << Color << ";" << Speed << ";" << Intensity << ";" << Memory << ";" << NumberOfPrintersInStock << "\n";
 	MyFile.close();
-
-	cout << "\nAdded data. Do you want to see the data (y/n): ";
-	string choice;
-	cin >> choice;
-	cin.ignore();
-	cout << endl;
-
-	if (choice == "y" or choice == "Y")
+	ifstream file("Common printer warehouse.txt");
+	if (file)
 	{
-		ifstream file("Common printer warehouse.txt");
-		if (file)
+		vector<Printer> data;
+		string line;
+		while (getline(file, line))
 		{
-			vector<Printer> data;
-			string line;
-			while (getline(file, line))
-			{
-				Printer printer;
-				printer.Split(line);
-				data.push_back(printer);
-			}
-			Printer::Output(data);
+			Printer printer;
+			printer.Split(line);
+			data.push_back(printer);
 		}
-		else
-		{
-			cout << "No data available." << endl;
-		}
-		file.close();
+		Printer::Output(data);
 	}
+	else
+	{
+		cout << "No data available." << endl;
+	}
+	file.close();
 }
 
+// Output printer information to file and console
 void Printer::Output(vector<Printer> data) const
 {
 	openFileExportInvoice();
@@ -127,16 +148,18 @@ void Printer::Output(vector<Printer> data) const
 			 << "|\t" << setw(9) << left << p.Intensity
 			 << "| " << setw(7) << left << p.Memory
 			 << "| " << setw(6) << left << p.NumberOfPrintersInStock << "|" << endl;
+		file << "+------------------------+---------+-------+-------------+--------+-------+" << endl;
 	}
-	file << "+------------------------+---------+-------+-------------+--------+-------+" << endl;
 	file.close();
 	showExportInvoice();
 }
+
+// General input function for printer attributes
 void Printer::GeneralImport()
 {
 	cout << "Enter printer number: ";
 	cin >> PrinterNumber;
-	while (cin.fail() or PrinterNumber < 0)
+	while (cin.fail() || PrinterNumber < 0)
 	{
 		cout << "Invalid input. Please enter a valid printer number: ";
 		cin.clear();
@@ -156,7 +179,7 @@ void Printer::GeneralImport()
 
 	cout << "Enter speed (pages per minute): ";
 	cin >> Speed;
-	while (cin.fail() or Speed < 0)
+	while (cin.fail() || Speed < 0)
 	{
 		cout << "Invalid input. Please enter a valid speed: ";
 		cin.clear();
@@ -166,7 +189,7 @@ void Printer::GeneralImport()
 
 	cout << "Enter intensity: ";
 	cin >> Intensity;
-	while (cin.fail() or Intensity < 0)
+	while (cin.fail() || Intensity < 0)
 	{
 		cout << "Invalid input. Please enter a valid intensity: ";
 		cin.clear();
@@ -176,7 +199,7 @@ void Printer::GeneralImport()
 
 	cout << "Enter memory (MB): ";
 	cin >> Memory;
-	while (cin.fail() or Memory < 0)
+	while (cin.fail() || Memory < 0)
 	{
 		cout << "Invalid input. Please enter a valid memory: ";
 		cin.clear();
@@ -186,7 +209,7 @@ void Printer::GeneralImport()
 
 	cout << "Enter number of printers in stock: ";
 	cin >> NumberOfPrintersInStock;
-	while (cin.fail() or NumberOfPrintersInStock < 0)
+	while (cin.fail() || NumberOfPrintersInStock < 0)
 	{
 		cout << "Invalid input. Please enter a valid number of printers in stock: ";
 		cin.clear();
@@ -195,10 +218,11 @@ void Printer::GeneralImport()
 	}
 }
 
+// Function to get the current time
 string Printer::getCurrentTime() const
 {
 	time_t t = time(NULL);
-	tm *now = localtime(&t);
+	tm* now = localtime(&t);
 	int day = now->tm_mday;
 	int month = now->tm_mon + 1;
 	int year = now->tm_year + 1900;
@@ -210,24 +234,28 @@ string Printer::getCurrentTime() const
 	result += "\nTime " + to_string(hour) + ":" + to_string(minute) + ":" + to_string(second);
 	return result;
 }
+
+// Function to open the export invoice file
 void Printer::openFileExportInvoice() const
 {
 	ofstream file("Export invoice.txt", ios::app);
 	if (!file.is_open())
 	{
-		cout << "Error: Couldn't open";
+		cout << "Error: Couldn't open the file";
 		exit(1);
 	}
 	file << "\n\t\t\t\tExport invoice" << endl;
 	file.close();
 }
+
+// Function to show the export invoice and prompt the user to open the file
 void Printer::showExportInvoice() const
 {
-	cout << "Do you want open the file? (y/n)" << endl;
+	cout << "Do you want to open the file? (y/n)" << endl;
 	string choice;
-	cin >> choice;
+	cin >> choice;	
 	cin.ignore();
-	if (choice == "y" or choice == "Y")
+	if (choice == "y" || choice == "Y")
 	{
 		system("start notepad.exe \"Export invoice.txt\"");
 	}

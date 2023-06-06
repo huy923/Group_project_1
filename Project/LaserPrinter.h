@@ -65,7 +65,7 @@ void LaserPrinter::Split(string line)
 void LaserPrinter::Input()
 {
 	Printer::GeneralImport();
-	cout << "Enter number of dots per inch (dpi): ";
+	cout << "Enter number of dots per inch (dpi) : ";
 	cin >> DPI;
 	while (cin.fail())
 	{
@@ -77,30 +77,21 @@ void LaserPrinter::Input()
 
 	ofstream MyFile("Laser printer warehouse.txt", ios::app);
 	MyFile << PrinterNumber << ";" << Color << ";" << Speed << ";" << Intensity << ";" << Memory << ";" << NumberOfPrintersInStock << ";" << DPI << "\n";
-	system("cls");
-
-	cout << "Added data. Do you want to see (y/n): ";
-	string choice;
-	cin >> choice;
-	cin.ignore();
-	system("cls");
-
-	if (choice == "y" || choice == "Y")
-	{
-		vector<LaserPrinter> data;
-		ifstream file("Laser printer warehouse.txt");
-		string line;
-		while (getline(file, line))
-		{
-			LaserPrinter printer;
-			printer.LaserPrinter::Split(line);
-			data.push_back(printer);
-		}
-		LaserPrinter::Output(data);
-	}
-
 	MyFile.close();
 	system("cls");
+
+	vector<LaserPrinter> data;
+	ifstream file("Laser printer warehouse.txt");
+	string line;
+	while (getline(file, line))
+	{
+		LaserPrinter printer;
+		printer.LaserPrinter::Split(line);
+		data.push_back(printer);
+	}
+	LaserPrinter::Output(data);
+	system("cls");
+	file.close();
 }
 
 void LaserPrinter::Output(vector<LaserPrinter> data)
@@ -125,9 +116,9 @@ void LaserPrinter::Output(vector<LaserPrinter> data)
 			 << "| " << setw(7) << left << p.Memory
 			 << "| " << setw(6) << left << p.NumberOfPrintersInStock
 			 << "| " << setw(4) << p.GetDPI() << "|" << endl;
+		file << "+------------------------+---------+-------+-------------+--------+-------+-----+" << endl;
 	}
-	
-	file << "+------------------------+---------+-------+-------------+--------+-------+-----+" << endl;
+
 	file.close();
 	showExportInvoice();
 }

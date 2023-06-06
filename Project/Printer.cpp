@@ -20,6 +20,7 @@ int main(int argc, char const *argv[])
 		int choice;
 		cin >> choice;
 		system("cls");
+		
 		switch (choice)
 		{
 		case 1:

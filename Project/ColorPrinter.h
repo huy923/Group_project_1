@@ -11,7 +11,7 @@ private:
 
 public:
 	ColorPrinter();
-	ColorPrinter(int, string, double, double, double, int, double, int);
+	ColorPrinter(string, string, double, double, double, int, double, int);
 	int GetNumberOfPrintableColors() const;
 	void SetNumberOfPrintableColors(int);
 	void Split(string);
@@ -25,6 +25,7 @@ public:
 	void ShowPrinterStatistics();
 	void Print() override;
 	void search();
+	void writeDataToVector(vector<ColorPrinter> &);
 };
 void ColorPrinter::Print()
 {
@@ -36,12 +37,12 @@ int ColorPrinter::GetNumberOfPrintableColors() const
 }
 void ColorPrinter::SetNumberOfPrintableColors(int NumberOfPrintableColors) { this->NumberOfPrintableColors = NumberOfPrintableColors; }
 
-ColorPrinter::ColorPrinter(int num, string color, double speed, double intensity, double memory, int stock, double dpi, int numColors)
+ColorPrinter::ColorPrinter(string num, string color, double speed, double intensity, double memory, int stock, double dpi, int numColors)
 	: LaserPrinter(num, color, speed, intensity, memory, stock, dpi), NumberOfPrintableColors(numColors) {}
 
 ColorPrinter::ColorPrinter()
 {
-	PrinterNumber = 0;
+	PrinterNumber = "";
 	Color = "";
 	Speed = 0.0;
 	Intensity = 0.0;
@@ -54,8 +55,7 @@ void ColorPrinter::Split(string line)
 {
 	stringstream ss(line);
 	string field;
-	getline(ss, field, ';');
-	PrinterNumber = stoi(field);
+	getline(ss, PrinterNumber, ';');
 	getline(ss, Color, ';');
 	getline(ss, field, ';');
 	Speed = stod(field);
@@ -78,8 +78,7 @@ void ColorPrinter::Output(vector<ColorPrinter> data) const
 	ofstream file("Export invoice.txt", ios::app);
 	file << "Color printer" << endl;
 
-	string displayTime = getCurrentTime();
-	file << displayTime << endl;
+	file << getCurrentTime() << endl;
 
 	file << "+------------------------+---------+-------+-------------+--------+-------+-----+------------------+" << endl;
 	file << "| Printer number         | Color   | Speed |  Intensity  | Memory | Stock | DPI | Number of colors |" << endl;
@@ -88,12 +87,12 @@ void ColorPrinter::Output(vector<ColorPrinter> data) const
 	{
 		file << "| " << setw(23) << left << p.PrinterNumber
 			 << "| " << setw(8) << left << p.Color
-			 << "|  " << setw(5) << left << p.Speed
-			 << "|\t" << setw(9) << left << p.Intensity
+			 << "| " << setw(6) << left << p.Speed
+			 << "| " << setw(12) << left << p.Intensity
 			 << "| " << setw(7) << left << p.Memory
 			 << "| " << setw(6) << left << p.NumberOfPrintersInStock
-			 << "| " << setw(3) << left << p.GetDPI()
-			 << " | " << setw(17) << left << p.GetNumberOfPrintableColors() << "|" << endl;
+			 << "| " << setw(4) << left << p.GetDPI()
+			 << "| " << setw(17) << left << p.GetNumberOfPrintableColors() << "|" << endl;
 		file << "+------------------------+---------+-------+-------------+--------+-------+-----+------------------+" << endl;
 	}
 	file.close();
@@ -166,42 +165,18 @@ void ColorPrinter::GetFileData(string NameFile, vector<Printer> &DataPrinter, ve
 	string check3 = "Color printer warehouse.txt";
 	if (NameFile == check1)
 	{
-		ifstream file("Common printer warehouse.txt");
-		string Line;
-		while (getline(file, Line))
-		{
-			Printer NewPrinter;
-			NewPrinter.Printer::Split(Line);
-			DataPrinter.push_back(NewPrinter);
-		}
+		Printer::writeDataToVector(DataPrinter);
 		Printer::Output(DataPrinter);
-		file.close();
 	}
 	else if (NameFile == check2)
 	{
-		ifstream file("Laser printer warehouse.txt");
-		string Line;
-		while (getline(file, Line))
-		{
-			LaserPrinter NewLaserPrinter;
-			NewLaserPrinter.LaserPrinter::Split(Line);
-			DataLaserPrinter.push_back(NewLaserPrinter);
-		}
+		LaserPrinter::writeDataToVector(DataLaserPrinter);
 		LaserPrinter::Output(DataLaserPrinter);
-		file.close();
 	}
 	else if (NameFile == check3)
 	{
-		ifstream file("Color printer warehouse.txt");
-		string Line;
-		while (getline(file, Line))
-		{
-			ColorPrinter NewColorPrinter;
-			NewColorPrinter.ColorPrinter::Split(Line);
-			DataColorPrinter.push_back(NewColorPrinter);
-		}
+		ColorPrinter::writeDataToVector(DataColorPrinter);
 		ColorPrinter::Output(DataColorPrinter);
-		file.close();
 	}
 	else
 	{
@@ -414,6 +389,12 @@ void ColorPrinter::Input()
 	MyFile.close();
 
 	vector<ColorPrinter> data;
+	ColorPrinter::writeDataToVector(data);
+	ColorPrinter::Output(data);
+	system("cls");
+}
+void ColorPrinter::writeDataToVector(vector<ColorPrinter> &data)
+{
 	ifstream file("Color printer warehouse.txt");
 	string line;
 	while (getline(file, line))
@@ -422,9 +403,7 @@ void ColorPrinter::Input()
 		printer.ColorPrinter::Split(line);
 		data.push_back(printer);
 	}
-	ColorPrinter::Output(data);
 	file.close();
-	system("cls");
 }
 void showFileSearch()
 {
@@ -441,38 +420,18 @@ void ColorPrinter::search()
 {
 	ofstream fileOutput("Export invoice.txt", ios::app);
 
-	ifstream filePrinter("Common printer warehouse.txt");
 	vector<Printer> dataPrinter;
-	string linePrinter;
-	while (getline(filePrinter, linePrinter))
-	{
-		Printer printer;
-		printer.Split(linePrinter);
-		dataPrinter.push_back(printer);
-	}
-	filePrinter.close();
+	Printer::writeDataToVector(dataPrinter);
 
 	vector<ColorPrinter> dataColorPrinter;
-	ifstream fileColorPrinter("Color printer warehouse.txt");
-	string lineColorPrinter;
-	while (getline(fileColorPrinter, lineColorPrinter))
-	{
-		ColorPrinter printer;
-		printer.ColorPrinter::Split(lineColorPrinter);
-		dataColorPrinter.push_back(printer);
-	}
-	fileColorPrinter.close();
-	// read file Laser printer warehouse.txt and push it to dataLaserPrinter
+	ColorPrinter::writeDataToVector(dataColorPrinter);
+
 	vector<LaserPrinter> dataLaserPrinter;
+	LaserPrinter::writeDataToVector(dataLaserPrinter);
+
 	ifstream fileLaserPrinter("Laser printer warehouse.txt");
-	string lineLaserPrinter;
-	while (getline(fileLaserPrinter, lineLaserPrinter))
-	{
-		LaserPrinter printer;
-		printer.LaserPrinter::Split(lineLaserPrinter);
-		dataLaserPrinter.push_back(printer);
-	}
-	fileLaserPrinter.close();
+	ifstream filePrinter("Common printer warehouse.txt");
+	ifstream fileColorPrinter("Color printer warehouse.txt");
 
 	cout << "********************************************************" << endl;
 	cout << "* What file do you want to open for searching?         *" << endl;
@@ -502,7 +461,7 @@ void ColorPrinter::search()
 		case 1:
 		{
 			cout << "Enter the number of printers to search for: ";
-			int numOfPrinters;
+			string numOfPrinters;
 			cin >> numOfPrinters;
 			cin.ignore();
 			vector<Printer> temp;
@@ -523,6 +482,7 @@ void ColorPrinter::search()
 			else
 			{
 				fileOutput << "\tNo results found	" << endl;
+				system("start notepad.exe \"Export invoice.txt\"");
 			}
 			temp.clear();
 		}
@@ -552,6 +512,7 @@ void ColorPrinter::search()
 			else
 			{
 				fileOutput << "\tNo results found	" << endl;
+				system("start notepad.exe \"Export invoice.txt\"");
 			}
 			temp.clear();
 		}
@@ -581,6 +542,7 @@ void ColorPrinter::search()
 			else
 			{
 				fileOutput << "\tNo results found	" << endl;
+				system("start notepad.exe \"Export invoice.txt\"");
 			}
 			temp.clear();
 		}
@@ -610,6 +572,7 @@ void ColorPrinter::search()
 			else
 			{
 				fileOutput << "\tNo results found	" << endl;
+				system("start notepad.exe \"Export invoice.txt\""); // open file
 			}
 			temp.clear();
 		}
@@ -628,7 +591,7 @@ void ColorPrinter::search()
 				if (printer.GetMemory() == memory)
 				{
 					check = true;
-					temp.push_back(printer);
+					temp.push_back(printer); // copy data from printer
 				}
 			}
 
@@ -639,6 +602,7 @@ void ColorPrinter::search()
 			else
 			{
 				fileOutput << "\tNo results found	" << endl;
+				system("start notepad.exe \"Export invoice.txt\""); // open file
 			}
 			temp.clear();
 		}
@@ -667,6 +631,7 @@ void ColorPrinter::search()
 			else
 			{
 				fileOutput << "\tNo results found	" << endl;
+				system("start notepad.exe \"Export invoice.txt\"");
 			}
 			temp.clear();
 		}
@@ -693,7 +658,7 @@ void ColorPrinter::search()
 		case 1:
 		{
 			cout << "Enter the number of printers to search for: ";
-			int numOfPrinters;
+			string numOfPrinters;
 			cin >> numOfPrinters;
 			cin.ignore();
 			vector<LaserPrinter> temp;
@@ -714,6 +679,7 @@ void ColorPrinter::search()
 			else
 			{
 				fileOutput << "\tNo results found	" << endl;
+				system("start notepad.exe \"Export invoice.txt\"");
 			}
 			temp.clear();
 		}
@@ -743,6 +709,7 @@ void ColorPrinter::search()
 			else
 			{
 				fileOutput << "\tNo results found	" << endl;
+				system("start notepad.exe \"Export invoice.txt\"");
 			}
 			temp.clear();
 		}
@@ -772,6 +739,7 @@ void ColorPrinter::search()
 			else
 			{
 				fileOutput << "\tNo results found	" << endl;
+				system("start notepad.exe \"Export invoice.txt\"");
 			}
 			temp.clear();
 		}
@@ -801,6 +769,7 @@ void ColorPrinter::search()
 			else
 			{
 				fileOutput << "\tNo results found	" << endl;
+				system("start notepad.exe \"Export invoice.txt\"");
 			}
 			temp.clear();
 		}
@@ -830,6 +799,7 @@ void ColorPrinter::search()
 			else
 			{
 				fileOutput << "\tNo results found	" << endl;
+				system("start notepad.exe \"Export invoice.txt\"");
 			}
 			temp.clear();
 		}
@@ -858,6 +828,7 @@ void ColorPrinter::search()
 			else
 			{
 				fileOutput << "\tNo results found	" << endl;
+				system("start notepad.exe \"Export invoice.txt\"");
 			}
 			temp.clear();
 		}
@@ -884,6 +855,7 @@ void ColorPrinter::search()
 			else
 			{
 				fileOutput << "\tNo results found " << endl;
+				system("start notepad.exe \"Export invoice.txt\"");
 			}
 			temp.clear();
 		}
@@ -910,7 +882,7 @@ void ColorPrinter::search()
 		case 1:
 		{
 			cout << "Enter the number of printers to search for: ";
-			int numOfPrinters;
+			string numOfPrinters;
 			cin >> numOfPrinters;
 			cin.ignore();
 			vector<ColorPrinter> temp;
@@ -931,6 +903,7 @@ void ColorPrinter::search()
 			else
 			{
 				fileOutput << "\tNo results found	" << endl;
+				system("start notepad.exe \"Export invoice.txt\"");
 			}
 			temp.clear();
 		}
@@ -960,6 +933,7 @@ void ColorPrinter::search()
 			else
 			{
 				fileOutput << "\tNo results found	" << endl;
+				system("start notepad.exe \"Export invoice.txt\"");
 			}
 			temp.clear();
 		}
@@ -989,6 +963,7 @@ void ColorPrinter::search()
 			else
 			{
 				fileOutput << "\tNo results found	" << endl;
+				system("start notepad.exe \"Export invoice.txt\"");
 			}
 			temp.clear();
 		}
@@ -1018,6 +993,7 @@ void ColorPrinter::search()
 			else
 			{
 				fileOutput << "\tNo results found	" << endl;
+				system("start notepad.exe \"Export invoice.txt\"");
 			}
 			temp.clear();
 		}
@@ -1047,6 +1023,7 @@ void ColorPrinter::search()
 			else
 			{
 				fileOutput << "\tNo results found	" << endl;
+				system("start notepad.exe \"Export invoice.txt\"");
 			}
 			temp.clear();
 		}
@@ -1075,6 +1052,7 @@ void ColorPrinter::search()
 			else
 			{
 				fileOutput << "\tNo results found	" << endl;
+				system("start notepad.exe \"Export invoice.txt\"");
 			}
 			temp.clear();
 		}
@@ -1101,6 +1079,7 @@ void ColorPrinter::search()
 			else
 			{
 				fileOutput << "\tNo results found " << endl;
+				system("start notepad.exe \"Export invoice.txt\"");
 			}
 			temp.clear();
 		}
@@ -1115,7 +1094,7 @@ void ColorPrinter::search()
 			vector<ColorPrinter> temp;
 			for (const auto &printer : dataColorPrinter)
 			{
-				if (printer.GetDPI() == Number)
+				if (printer.GetNumberOfPrintableColors() == Number)
 				{
 					check = true;
 					temp.push_back(printer);
@@ -1128,6 +1107,7 @@ void ColorPrinter::search()
 			else
 			{
 				fileOutput << "No results found " << endl;
+				system("start notepad.exe \"Export invoice.txt\"");
 			}
 			temp.clear();
 		}
@@ -1141,8 +1121,19 @@ void ColorPrinter::search()
 		cout << "Invalid file selection. Please choose again." << endl;
 		break;
 	}
+	fileOutput.close();
 	dataPrinter.clear();
 	dataLaserPrinter.clear();
 	dataColorPrinter.clear();
 }
+void deleteLineFromFile()
+{
+	cout << "********************************************************" << endl;
+	cout << "* What file do you want to open for delete line?       *" << endl;
+	cout << "* Enter 1: Common printer warehouse                    *" << endl;
+	cout << "* Enter 2: Laser printer warehouse                     *" << endl;
+	cout << "* Enter 3: Color printer warehouse                     *" << endl;
+	cout << "********************************************************" << endl;
+}
+
 #endif

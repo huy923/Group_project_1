@@ -8,14 +8,15 @@ private:
 	double DPI;
 
 public:
-	LaserPrinter();
-	LaserPrinter(int, string, double, double, double, int, double);
+	LaserPrinter();//Default constructor
+	LaserPrinter(string, string, double, double, double, int, double);
 	double GetDPI() const;
 	void SetDPI(double);
 	void Input();
-	void Split(string);
 	void Output(vector<LaserPrinter>);
+	void Split(string);
 	void Print() override;
+	void writeDataToVector(vector<LaserPrinter>&);
 };
 double LaserPrinter::GetDPI() const
 {
@@ -29,11 +30,11 @@ void LaserPrinter::Print()
 {
 	cout << "LaserPrinter" << endl;
 }
-LaserPrinter::LaserPrinter(int num, string color, double speed, double intensity, double memory, int stock, double dpi)
+LaserPrinter::LaserPrinter(string num, string color, double speed, double intensity, double memory, int stock, double dpi)
 	: Printer(num, color, speed, intensity, memory, stock), DPI(dpi) {}
 LaserPrinter::LaserPrinter()
 {
-	PrinterNumber = 0;
+	PrinterNumber = "";
 	Color = "";
 	Speed = 0.0;
 	Intensity = 0.0;
@@ -46,8 +47,7 @@ void LaserPrinter::Split(string line)
 {
 	stringstream ss(line);
 	string field;
-	getline(ss, field, ';');
-	PrinterNumber = stoi(field);
+	getline(ss, PrinterNumber, ';');
 	getline(ss, Color, ';');
 	getline(ss, field, ';');
 	Speed = stod(field);
@@ -67,31 +67,23 @@ void LaserPrinter::Input()
 	Printer::GeneralImport();
 	cout << "Enter number of dots per inch (dpi) : ";
 	cin >> DPI;
-	while (cin.fail())
+	while (cin.fail() or DPI > 0 or to_string(DPI).length() > 5)
 	{
 		cout << "Invalid input. Please enter a valid number of dots per inch: ";
 		cin.clear();
 		cin.ignore(numeric_limits<streamsize>::max(), '\n');
 		cin >> DPI;
 	}
-
+	// open file and write to it 
 	ofstream MyFile("Laser printer warehouse.txt", ios::app);
 	MyFile << PrinterNumber << ";" << Color << ";" << Speed << ";" << Intensity << ";" << Memory << ";" << NumberOfPrintersInStock << ";" << DPI << "\n";
 	MyFile.close();
 	system("cls");
 
 	vector<LaserPrinter> data;
-	ifstream file("Laser printer warehouse.txt");
-	string line;
-	while (getline(file, line))
-	{
-		LaserPrinter printer;
-		printer.LaserPrinter::Split(line);
-		data.push_back(printer);
-	}
+	LaserPrinter::writeDataToVector(data);
 	LaserPrinter::Output(data);
 	system("cls");
-	file.close();
 }
 
 void LaserPrinter::Output(vector<LaserPrinter> data)
@@ -100,8 +92,7 @@ void LaserPrinter::Output(vector<LaserPrinter> data)
 	ofstream file("Export invoice.txt", ios::app);
 	file << "Laser Printer" << endl;
 
-	string displayTime = getCurrentTime();
-	file << displayTime << endl;
+	file << getCurrentTime() << endl;
 
 	file << "+------------------------+---------+-------+-------------+--------+-------+-----+" << endl;
 	file << "| Printer number         | Color   | Speed |  Intensity  | Memory | Stock | DPI |" << endl;
@@ -121,5 +112,16 @@ void LaserPrinter::Output(vector<LaserPrinter> data)
 
 	file.close();
 	showExportInvoice();
+}
+void LaserPrinter::writeDataToVector(vector<LaserPrinter> &data){
+	ifstream file("Laser printer warehouse.txt");
+	string line;
+	while (getline(file, line))
+	{
+		LaserPrinter printer;
+		printer.LaserPrinter::Split(line);
+		data.push_back(printer);
+	}
+	file.close();
 }
 #endif

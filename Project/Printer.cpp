@@ -8,7 +8,7 @@ int main(int argc, char const *argv[])
 	vector<LaserPrinter> DataLaserPrinter;
 	ColorPrinter NewData;
 	
-	for (;;)	
+	for (;;)
 	{
 		cout << "\n***********************************" << endl;
 		cout << "* Enter 1: Add new data\t          *" << endl;
@@ -19,6 +19,7 @@ int main(int argc, char const *argv[])
 		cout << "  Your choice is : ";
 		int choice;
 		cin >> choice;
+		cin.ignore();
 		system("cls");
 		
 		switch (choice)
@@ -42,10 +43,10 @@ int main(int argc, char const *argv[])
 		{
 			NewData.search();
 			break;
-		}
+		} 
 		default:
 		{
-			cout << "Bye! 💖💖💖" << endl;
+			cout << "Bye!" << endl;
 			exit(1);
 			break;
 		}

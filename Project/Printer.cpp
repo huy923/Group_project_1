@@ -1,6 +1,7 @@
 #include ".\Printer.h"
 #include ".\LaserPrinter.h"
 #include ".\ColorPrinter.h"
+#
 int main(int argc, char const *argv[])
 {
 	vector<Printer> DataPrinter;

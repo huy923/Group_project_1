@@ -1,7 +1,6 @@
 #ifndef LASERPRINTER_H
 #define LASERPRINTER_H
 #include ".\Printer.h"
-
 class LaserPrinter : public Printer
 {
 private:

@@ -66,7 +66,7 @@ void LaserPrinter::Input()
 	Printer::GeneralImport();
 	cout << "Enter number of dots per inch (dpi) : ";
 	cin >> DPI;
-	while (cin.fail() or DPI > 0 or to_string(DPI).length() > 5)
+	while (cin.fail() or DPI > 0)
 	{
 		cout << "Invalid input. Please enter a valid number of dots per inch: ";
 		cin.clear();

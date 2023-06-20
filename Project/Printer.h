@@ -150,7 +150,7 @@ void Printer::GeneralImport()
 {
 	cout << "Enter printer number: ";
 	cin >> PrinterNumber;
-	while (cin.fail() or PrinterNumber.size() > 24)
+	while (cin.fail() or PrinterNumber.length() > 24)
 	{
 		cout << "Invalid input. Please enter a valid printer number: ";
 		cin.clear();
@@ -170,7 +170,7 @@ void Printer::GeneralImport()
 
 	cout << "Enter speed (pages per minute): ";
 	cin >> Speed;
-	while (cin.fail() or Speed < 0 or to_string(Speed).length() > 6)
+	while (cin.fail() or Speed < 0)
 	{
 		cout << "Invalid input. Please enter a valid speed: ";
 		cin.clear();
@@ -180,7 +180,7 @@ void Printer::GeneralImport()
 
 	cout << "Enter intensity: ";
 	cin >> Intensity;
-	while (cin.fail() or Intensity < 0 or to_string(Intensity).length() > 13)
+	while (cin.fail() or Intensity < 0)
 	{
 		cout << "Invalid input. Please enter a valid intensity: ";
 		cin.clear();
@@ -190,7 +190,7 @@ void Printer::GeneralImport()
 
 	cout << "Enter memory (MB): ";
 	cin >> Memory;
-	while (cin.fail() or Memory < 0 or to_string(Memory).length() > 8)
+	while (cin.fail() or Memory < 0)
 	{
 		cout << "Invalid input. Please enter a valid memory: ";
 		cin.clear();
@@ -200,7 +200,7 @@ void Printer::GeneralImport()
 
 	cout << "Enter number of printers in stock: ";
 	cin >> NumberOfPrintersInStock;
-	while (cin.fail() or NumberOfPrintersInStock < 0 or to_string(NumberOfPrintersInStock).length() > 7)
+	while (cin.fail() or NumberOfPrintersInStock < 0)
 	{
 		cout << "Invalid input. Please enter a valid number of printers in stock: ";
 		cin.clear();

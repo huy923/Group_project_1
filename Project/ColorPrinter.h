@@ -360,7 +360,7 @@ void ColorPrinter::Input()
 	cout << "Enter number of dots per inch (dpi): ";
 	double DPI;
 	cin >> DPI;
-	while (cin.fail())
+	while (cin.fail() or DPI < 0)
 	{
 		cout << "Invalid input. Please enter a valid number of dots per inch: ";
 		cin.clear();

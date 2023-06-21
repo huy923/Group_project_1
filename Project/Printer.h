@@ -9,6 +9,7 @@
 #include <limits>
 #include <iomanip>
 #include <ctime>
+
 using namespace std;
 
 class Printer
@@ -170,7 +171,7 @@ void Printer::GeneralImport()
 
 	cout << "Enter speed (pages per minute): ";
 	cin >> Speed;
-	while (cin.fail() or Speed < 0)
+	while (cin.fail() or Speed < 0 )
 	{
 		cout << "Invalid input. Please enter a valid speed: ";
 		cin.clear();
@@ -180,7 +181,7 @@ void Printer::GeneralImport()
 
 	cout << "Enter intensity: ";
 	cin >> Intensity;
-	while (cin.fail() or Intensity < 0)
+	while (cin.fail() or Intensity < 0 )
 	{
 		cout << "Invalid input. Please enter a valid intensity: ";
 		cin.clear();
@@ -190,7 +191,7 @@ void Printer::GeneralImport()
 
 	cout << "Enter memory (MB): ";
 	cin >> Memory;
-	while (cin.fail() or Memory < 0)
+	while (cin.fail() or Memory < 0 )
 	{
 		cout << "Invalid input. Please enter a valid memory: ";
 		cin.clear();
@@ -200,7 +201,7 @@ void Printer::GeneralImport()
 
 	cout << "Enter number of printers in stock: ";
 	cin >> NumberOfPrintersInStock;
-	while (cin.fail() or NumberOfPrintersInStock < 0)
+	while (cin.fail() or NumberOfPrintersInStock < 0 )
 	{
 		cout << "Invalid input. Please enter a valid number of printers in stock: ";
 		cin.clear();

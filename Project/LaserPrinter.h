@@ -1,13 +1,14 @@
 #ifndef LASERPRINTER_H
 #define LASERPRINTER_H
 #include ".\Printer.h"
+
 class LaserPrinter : public Printer
 {
 private:
 	double DPI;
 
 public:
-	LaserPrinter();//Default constructor
+	LaserPrinter(); // Default constructor
 	LaserPrinter(string, string, double, double, double, int, double);
 	double GetDPI() const;
 	void SetDPI(double);
@@ -15,7 +16,7 @@ public:
 	void Output(vector<LaserPrinter>);
 	void Split(string);
 	void Print() override;
-	void writeDataToVector(vector<LaserPrinter>&);
+	void writeDataToVector(vector<LaserPrinter> &);
 };
 double LaserPrinter::GetDPI() const
 {
@@ -66,14 +67,14 @@ void LaserPrinter::Input()
 	Printer::GeneralImport();
 	cout << "Enter number of dots per inch (dpi) : ";
 	cin >> DPI;
-	while (cin.fail() or DPI > 0)
+	while (cin.fail() or DPI < 0)
 	{
 		cout << "Invalid input. Please enter a valid number of dots per inch: ";
 		cin.clear();
 		cin.ignore(numeric_limits<streamsize>::max(), '\n');
 		cin >> DPI;
 	}
-	// open file and write to it 
+	// open file and write to it
 	ofstream MyFile("Laser printer warehouse.txt", ios::app);
 	MyFile << PrinterNumber << ";" << Color << ";" << Speed << ";" << Intensity << ";" << Memory << ";" << NumberOfPrintersInStock << ";" << DPI << "\n";
 	MyFile.close();
@@ -112,7 +113,8 @@ void LaserPrinter::Output(vector<LaserPrinter> data)
 	file.close();
 	showExportInvoice();
 }
-void LaserPrinter::writeDataToVector(vector<LaserPrinter> &data){
+void LaserPrinter::writeDataToVector(vector<LaserPrinter> &data)
+{
 	ifstream file("Laser printer warehouse.txt");
 	string line;
 	while (getline(file, line))

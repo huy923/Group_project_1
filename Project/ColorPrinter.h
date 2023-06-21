@@ -27,6 +27,7 @@ public:
 	void search();
 	void writeDataToVector(vector<ColorPrinter> &);
 };
+
 void ColorPrinter::Print()
 {
 	cout << "Color Printer" << endl;
